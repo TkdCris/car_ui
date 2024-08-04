@@ -11,8 +11,8 @@ const theme = extendTheme({
     colors: {
       error: 'red.500',
       alert: 'orange.600',
-      save_btn: '#3EA8FE',
-      selected_detail: '#6CE898',
+      btn_blue: '#3EA8FE',
+      green_detail: '#6CE898',
       status: {
         sold: '#B8FCC9',
         available: '#FBF5A7',
