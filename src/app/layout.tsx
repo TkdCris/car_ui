@@ -5,6 +5,7 @@ import { Header } from "@/compoments/Header";
 import { LeftMenu } from "@/compoments/LeftMenu/LeftMenu";
 import { ChakraProvider } from "@/providers/ChakraProvider";
 import { fonts } from "./fonts";
+import "@/global.css";
 
 export const metadata: Metadata = {
   title: "C.A.R.",
@@ -17,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={fonts.rubik.variable}>
+    <html lang="en" className={`${fonts.rubik.variable}`}>
       <body>
         <ChakraProvider>
           <Flex
@@ -32,7 +33,7 @@ export default function RootLayout({
               <HStack height="100%" gap={0}>
                 <Box
                   height="100%"
-                  width={300}
+                  width={250}
                   display={{ base: "none", md: "flex" }}
                 >
                   <LeftMenu />
