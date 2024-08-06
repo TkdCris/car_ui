@@ -1,5 +1,5 @@
-import { Box, Flex, HStack } from "@chakra-ui/react";
 import type { Metadata } from "next";
+import { Box, Flex, HStack } from "@chakra-ui/react";
 
 import { Header } from "@/compoments/Header";
 import { LeftMenu } from "@/compoments/LeftMenu/LeftMenu";

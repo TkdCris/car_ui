@@ -1,6 +1,5 @@
-"use client";
-
 import { HStack } from "@chakra-ui/react";
+
 import { RightContent } from "./right-content";
 import { LeftContent } from "./left-content";
 
@@ -17,7 +16,6 @@ export function Header() {
     >
       <LeftContent />
       <RightContent />
-      {/** Mobine */}
     </HStack>
   );
 }

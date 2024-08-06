@@ -1,16 +1,7 @@
-import { AddIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Heading,
-  HStack,
-  Icon,
-  IconButton,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
+"use client";
+
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { Avatar, Button, Flex, Heading, useColorMode } from "@chakra-ui/react";
 
 export function RightContent() {
   const { colorMode, toggleColorMode } = useColorMode();
