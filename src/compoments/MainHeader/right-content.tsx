@@ -9,7 +9,7 @@ export function RightContent() {
   return (
     <Flex alignItems="center" gap={4}>
       <Heading as="h1" size="md" gap="4" display={{ base: "none", md: "flex" }}>
-        <p>NomeCliente</p>
+        <p>Filial</p>
       </Heading>
       <Avatar size="sm" name="" />
       <Button

@@ -29,7 +29,7 @@ export function LeftMenu() {
       alignItems="start"
       borderTop={1}
       borderStyle="solid"
-      borderColor="header.text"
+      borderColor="app_bg"
     >
       <VStack width="100%" alignItems="start" pt={4}>
         <Box pl={4}>Menu</Box>
@@ -66,7 +66,6 @@ export function LeftMenu() {
             </BtnMenu>
           </Link>
         </Box>
-
         <Box w={"100%"}>
           <Link href="/fiscal" passHref={true}>
             <BtnMenu
@@ -91,12 +90,7 @@ export function LeftMenu() {
         </Box>
       </VStack>
 
-      <Flex
-        w={"100%"}
-        borderTop={1}
-        borderStyle="solid"
-        borderColor="header.text"
-      >
+      <Flex w={"100%"} borderTop={1} borderStyle="solid" borderColor="app_bg">
         <Flex px={8} py={2} alignItems="center" gap={4}>
           <GiExitDoor />
           Sair
