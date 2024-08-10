@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Box, Flex, HStack } from "@chakra-ui/react";
 
-import { Header } from "@/compoments/Header";
-import { LeftMenu } from "@/compoments/LeftMenu/LeftMenu";
 import { ChakraProvider } from "@/providers/ChakraProvider";
+import { LeftMenu, MainHeader } from "@/compoments";
 import { fonts } from "./fonts";
 import "@/global.css";
 
@@ -27,7 +26,7 @@ export default function RootLayout({
             px={{ base: "0", "2xl": "50" }}
           >
             <Box as="header" bg="header.bg">
-              <Header />
+              <MainHeader />
             </Box>
             <Box as="main" flex="1" overflow="auto">
               <HStack height="100%" gap={0}>
@@ -38,7 +37,7 @@ export default function RootLayout({
                 >
                   <LeftMenu />
                 </Box>
-                <Box bg="app_bg" height="100%" width="100%">
+                <Box bg="app_bg" height="full" width="full">
                   {children}
                 </Box>
               </HStack>

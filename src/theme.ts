@@ -21,13 +21,22 @@ const theme = extendTheme({
       menu: {
         text: {
           default: '#F3FAFF',
-          _dark: '#',
+          _dark: '',
         },
       },
-      table: '#F1F1F1',
+      table: {
+        bg: {
+          default: '#F1F1F1',
+          _dark: '#354465',
+        },
+        text: {
+          default: '#5f686e',
+          _dark: '#',
+        }
+      },
       app_bg: {
         default: '#F3F5F9',
-        _dark: '#F3F5F9'
+        _dark: '#394762'
       },
       header: {
         bg: {
@@ -42,15 +51,21 @@ const theme = extendTheme({
       content: {
         header: {
           default: '#EBF5FF',
-          _dark: '#',
+          _dark: '#354465',
         },
         text: {
-          default: '#FDFEFF',
+          default: '#5f686e',
           _dark: '#',
+        }
+      },
+      input: {
+        bg: {
+          default: '#F1F1F1',
+          _dark: '#354465',
         },
-        main_bg: {
-          default: '',
-          _dark: '#',
+        text: {
+          default: '#5f686e',
+          _dark: '#5f686e',
         }
       }
     },
