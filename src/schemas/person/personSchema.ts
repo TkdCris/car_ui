@@ -9,13 +9,31 @@ export const locationSchema = z.object({
 });
 
 export const personRegisterSchema = z.object({
-  name: z.string(),
-  document: z.string(),
+  typeOfPeople: z.string().min(1, { message: "Campo obrigatório!" }),
+  name: z.string().min(1, { message: "Campo obrigatório!" }),
+  cpf: z.string().optional(),
+  cnpj: z.string().optional(),
   phone: z.string(),
   email: z.string(),
-  birthdate: z.string(),
-  location: locationSchema,
+  birthdate: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.typeOfPeople === "pf" && !data.cpf) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "CPF é obrigatório para pessoa física.",
+      path: ["cpf"],
+    });
+}
+  if (data.typeOfPeople === "pj" && !data.cnpj) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "CNPJ é obrigatório para pessoa jurídica.",
+      path: ["cnpj"],
+    });
+}
 });
+
+
 
 export type PersonRegisterSchema = z.infer<typeof personRegisterSchema>;
  
