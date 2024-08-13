@@ -28,7 +28,7 @@ export default function RootLayout({
             <Box as="header" bg="header.bg">
               <MainHeader />
             </Box>
-            <Box as="main" flex="1" overflow="auto">
+            <Box as="main" flex="1" bg="app_bg">
               <HStack height="100%" gap={0}>
                 <Box
                   height="100%"
@@ -37,7 +37,13 @@ export default function RootLayout({
                 >
                   <LeftMenu />
                 </Box>
-                <Box bg="app_bg" height="full" width="full">
+                <Box
+                  height="100%"
+                  width="full"
+                  maxHeight="calc(100vh - 57px)"
+                  overflowY="auto"
+                  color={"content.text"}
+                >
                   {children}
                 </Box>
               </HStack>
