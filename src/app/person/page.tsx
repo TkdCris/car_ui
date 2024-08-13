@@ -1,35 +1,38 @@
 "use client";
 
 import { Box, VStack } from "@chakra-ui/react";
-
-import { ContentHeader, SearchComponent } from "@/compoments";
-import type { Person } from "@/types";
 import { useState } from "react";
-import { TableComponent } from "@/compoments/TableComponent";
+
+import { ContentHeader, SearchComponent, TableComponent } from "@/compoments";
+import type { Pessoa } from "@/types";
+import { PersonRegisterDrawer } from "./(register)";
 
 export default function PersonPage() {
-  const [personList, setPersonList] = useState<Person[] | null>(null);
+  const [personList, setPersonList] = useState<Pessoa[] | null>(null);
 
-  const handleGetValues = (value: Person[] | null) => {
+  const handleGetValues = (value: Pessoa[] | null) => {
     setPersonList(value);
   };
 
   return (
     <Box w={"full"} h={"full"}>
-      <ContentHeader title="Pessoas" />
+      <ContentHeader leftTitle="Pessoas">
+        <PersonRegisterDrawer />
+      </ContentHeader>
       <VStack px={8}>
-        <SearchComponent<Person[]>
+        <SearchComponent<Pessoa[]>
           getValues={handleGetValues}
           arrayOptions={[
             { value: "name", label: "Nome" },
-            { value: "document", label: "CPF" },
+            { value: "cpf", label: "CPF" },
+            { value: "cnpj", label: "CNPJ" },
           ]}
           url="https://api/person_search"
         />
         {/* Acrescentar prop titles para substituir os nomes das colunas na tabela
           Exemplo: titles={['Nome', 'CPF', 'Email']}. Se não for acrescentado,
           os nomes das colunas serão as chaves do objeto */}
-        <TableComponent<Person> rows={personList} />
+        <TableComponent<Pessoa> rows={personList} />
       </VStack>
     </Box>
   );
