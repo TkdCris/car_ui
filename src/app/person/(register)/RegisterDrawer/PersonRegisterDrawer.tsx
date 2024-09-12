@@ -7,11 +7,15 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-
-import { PersonRegisterForm } from ".";
+import { LegalEntityRegisterForm, NaturalPersonRegisterForm } from "../forms";
 
 export function PersonRegisterDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,10 +44,27 @@ export function PersonRegisterDrawer() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Cadastrar pessoa</DrawerHeader>
+          <DrawerHeader fontWeight={"bold"}>Cadastrar</DrawerHeader>
 
           <DrawerBody>
-            <PersonRegisterForm ref={formRef} />
+            <Tabs isLazy variant="enclosed">
+              <TabList>
+                <Tab fontSize={"lg"} fontWeight={"semibold"}>
+                  Pessoa Física
+                </Tab>
+                <Tab fontSize={"lg"} fontWeight={"semibold"}>
+                  Pessoa Jurídica
+                </Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel px={0}>
+                  <NaturalPersonRegisterForm ref={formRef} />
+                </TabPanel>
+                <TabPanel px={0}>
+                  <LegalEntityRegisterForm ref={formRef} />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           </DrawerBody>
 
           <DrawerFooter>
