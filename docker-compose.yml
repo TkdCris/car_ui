@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      context: .
+    container_name: car
+    ports:  
+      - "3002:3002"
+    volumes:
+      - ./:/home/node/app/
+    environment:
+      - TZ=America/Sao_Paulo
