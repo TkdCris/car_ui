@@ -2,7 +2,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.dev
     container_name: car
     ports:  
       - "3002:3002"

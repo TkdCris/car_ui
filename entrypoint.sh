@@ -6,9 +6,8 @@ if [ ! -d "node_modules" ]; then
   echo "node_modules não encontrado. Instalando dependências..."
   npm install
 else
-  echo "node_modules encontrado. Pulando a instalação de dependências."
+  echo "Node_modules encontrado. Pulando a instalação de dependências."
 fi
 
 # Inicia a aplicação
 npm run dev
-
