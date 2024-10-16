@@ -4,13 +4,13 @@ import { Box, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 
 import { ContentHeader, SearchComponent, TableComponent } from "@/compoments";
-import type { Pessoa } from "@/types";
 import { PersonRegisterDrawer } from "./(register)";
+import { Person } from "@/models";
 
 export default function PersonPage() {
-  const [personList, setPersonList] = useState<Pessoa[] | null>(null);
+  const [personList, setPersonList] = useState<Person[] | null>(null);
 
-  const handleGetValues = (value: Pessoa[] | null) => {
+  const handleGetValues = (value: Person[] | null) => {
     setPersonList(value);
   };
 
@@ -20,7 +20,7 @@ export default function PersonPage() {
         <PersonRegisterDrawer />
       </ContentHeader>
       <VStack px={8}>
-        <SearchComponent<Pessoa[]>
+        <SearchComponent<Person[]>
           getValues={handleGetValues}
           arrayOptions={[
             { value: "name", label: "Nome" },
@@ -32,7 +32,7 @@ export default function PersonPage() {
         {/* Acrescentar prop titles para substituir os nomes das colunas na tabela
           Exemplo: titles={['Nome', 'CPF', 'Email']}. Se não for acrescentado,
           os nomes das colunas serão as chaves do objeto */}
-        <TableComponent<Pessoa> rows={personList} />
+        <TableComponent<Person> rows={personList} />
       </VStack>
     </Box>
   );
