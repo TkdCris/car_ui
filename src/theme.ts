@@ -67,6 +67,11 @@ const theme = extendTheme({
           default: '#5f686e',
           _dark: '#5f686e',
         }
+      },
+      login: {
+        bg: "rgb(9, 9, 10)",
+        content: "rgba(19, 19, 20, 1)",
+        text: "#5f686e"
       }
     },
   },
