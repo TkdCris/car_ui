@@ -12,31 +12,22 @@ const theme = extendTheme({
       error: 'red.500',
       alert: 'orange.600',
       btn_blue: '#3EA8FE',
-      green_detail: '#6CE898',
+      app_bg: {
+        default: '#F3F5F9',
+        _dark: '#394762'
+      },
+      text: {
+        default: '#F3FAFF',
+        _dark: '#5f686e',
+      },
+      menu_detail: {
+        default: '#6CE898',
+        _dark: '#389AE8',
+      },
       status: {
         sold: '#B8FCC9',
         available: '#FBF5A7',
         returned: '#E9E9E9',
-      },
-      menu: {
-        text: {
-          default: '#F3FAFF',
-          _dark: '',
-        },
-      },
-      table: {
-        bg: {
-          default: '#F1F1F1',
-          _dark: '#354465',
-        },
-        text: {
-          default: '#5f686e',
-          _dark: '#',
-        }
-      },
-      app_bg: {
-        default: '#F3F5F9',
-        _dark: '#394762'
       },
       header: {
         bg: {
@@ -50,7 +41,7 @@ const theme = extendTheme({
       },
       content: {
         header: {
-          default: '#EBF5FF',
+          default: '#EBF3FF',
           _dark: '#354465',
         },
         text: {
@@ -67,6 +58,11 @@ const theme = extendTheme({
           default: '#5f686e',
           _dark: '#5f686e',
         }
+      },
+      login: {
+        bg: "rgb(9, 9, 10)",
+        content: "rgba(19, 19, 20, 1)",
+        text: "#5f686e"
       }
     },
   },

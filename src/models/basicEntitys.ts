@@ -1,8 +1,8 @@
-export interface Model extends AbstractModel {
+export interface CompanyEntity extends CommonEntity  {
   idEmpresa?: string;
 }
 
-export interface AbstractModel {
+export interface CommonEntity  {
   id?: string;
   createdAt?: string;
   createdBy?: string;

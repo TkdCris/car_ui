@@ -1,12 +1,13 @@
 "use client";
 
+import { signOut } from "next-auth/react";
 import { GiExitDoor } from "react-icons/gi";
 import { ImPrinter } from "react-icons/im";
 import { RiPagesLine } from "react-icons/ri";
 import { BsFillCarFrontFill } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { BsCurrencyDollar } from "react-icons/bs";
-import { Box, Flex, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -19,12 +20,16 @@ export function LeftMenu() {
     setSelected(e);
   };
 
+  const handleSignOut = () => {
+    signOut();
+  };
+
   return (
     <VStack
       w="full"
       h="full"
       justifyContent="space-between"
-      color="header.text"
+      color="text"
       bg="header.bg"
       alignItems="start"
       borderTop={1}
@@ -93,7 +98,9 @@ export function LeftMenu() {
       <Flex w={"100%"} borderTop={1} borderStyle="solid" borderColor="app_bg">
         <Flex px={8} py={2} alignItems="center" gap={4}>
           <GiExitDoor />
-          Sair
+          <Button color="text" variant="link" onClick={handleSignOut}>
+            Sair
+          </Button>
         </Flex>
       </Flex>
     </VStack>

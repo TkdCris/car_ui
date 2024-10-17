@@ -1,6 +1,6 @@
-import { Model } from "./model"
+import { CompanyEntity } from "./basicEntitys";
 
-export interface Pessoa extends Model {
+export interface Person extends CompanyEntity {
   nome: string,
   apelido: string,
   pessoaJuridica: boolean,

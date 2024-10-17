@@ -18,4 +18,3 @@ export const personRegisterSchema = z.object({
 })
 
 export type PersonRegisterSchema = z.infer<typeof personRegisterSchema>;
- 
