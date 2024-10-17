@@ -1,12 +1,20 @@
+import { auth } from "@/auth";
 import { LeftMenu, MainHeader } from "@/compoments";
 import { Box, Flex, HStack } from "@chakra-ui/react";
+import { redirect } from "next/navigation";
 import React from "react";
 
-export default function Layout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     <Flex direction="column" height="100vh" px={{ base: "0", "2xl": "50" }}>
       <Box as="header" bg="header.bg">
