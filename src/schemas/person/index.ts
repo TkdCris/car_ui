@@ -1,2 +1,2 @@
-export * from './personSchema';
+export * from './personRegisterSchema';
 export * from './userSchema';
