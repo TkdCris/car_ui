@@ -1,15 +1,16 @@
-import { auth } from "@/auth";
-import { LeftMenu, MainHeader } from "@/compoments";
 import { Box, Flex, HStack } from "@chakra-ui/react";
 import { redirect } from "next/navigation";
 import React from "react";
+
+import { LeftMenu, MainHeader } from "@/compoments";
+import { useSession } from "@/hooks/useSession";
 
 export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  const session = await useSession();
 
   if (!session) {
     redirect("/login");
