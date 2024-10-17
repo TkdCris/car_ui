@@ -21,7 +21,7 @@ export function BtnMenu({ children, isSelected, onClick }: BtnMenuProps) {
       rounded={0}
       borderRight={isSelected ? 4 : 0}
       borderStyle={"solid"}
-      borderColor={isSelected ? "green_detail" : "header.text"}
+      borderColor="menu_detail"
       bg={isSelected ? "rgba(255, 255, 255, 0.1)" : ""}
       onClick={onClick}
     >

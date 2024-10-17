@@ -23,7 +23,11 @@ export function RightContent() {
         }}
         onClick={toggleColorMode}
       >
-        {colorMode === "light" ? <SunIcon color="header.text" /> : <MoonIcon />}
+        {colorMode === "light" ? (
+          <SunIcon color="text" />
+        ) : (
+          <MoonIcon color="text" />
+        )}
       </Button>
     </Flex>
   );
