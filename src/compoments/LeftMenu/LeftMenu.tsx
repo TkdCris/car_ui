@@ -1,6 +1,5 @@
 "use client";
 
-import { signOut } from "next-auth/react";
 import { GiExitDoor } from "react-icons/gi";
 import { ImPrinter } from "react-icons/im";
 import { RiPagesLine } from "react-icons/ri";
@@ -9,19 +8,24 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { Box, Button, Flex, VStack } from "@chakra-ui/react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { BtnMenu } from "../BtnMenu";
+import { deleteCookie } from "@/utils/handleCookies";
 
 export function LeftMenu() {
   const [selected, setSelected] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSetSelected = (e: string) => {
     setSelected(e);
   };
 
   const handleSignOut = () => {
-    signOut();
+    deleteCookie("token");
+    sessionStorage.removeItem("token");
+    router.push("/login");
   };
 
   return (

@@ -1,20 +1,21 @@
+"use client";
+
 import { Box, Flex, HStack } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+
 import { redirect } from "next/navigation";
-import React from "react";
 
 import { LeftMenu, MainHeader } from "@/compoments";
-import { useSession } from "@/hooks/useSession";
 
-export default async function Layout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await useSession();
-
-  if (!session) {
-    redirect("/login");
-  }
+  useEffect(() => {
+    const sessionToken = sessionStorage.getItem("token");
+    if (!sessionToken) redirect("/login");
+  }, []);
 
   return (
     <Flex direction="column" height="100vh" px={{ base: "0", "2xl": "50" }}>
