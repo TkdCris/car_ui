@@ -39,7 +39,6 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
     });
 
     const onSubmit: SubmitHandler<PersonRegisterSchema> = async (data) => {
-      console.log("Submitted Data: ", data);
       try {
         const response = await fetch("/api/person", {
           method: "POST",
@@ -50,7 +49,6 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
         });
         if (response.ok) {
           const person = await response.json();
-          console.log("Person registered: ", person);
         } else {
           console.error("Error sending data:", response.status);
         }
@@ -61,7 +59,6 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     useImperativeHandle(ref, () => ({
       requestSubmit: () => {
-        console.log("requestSubmit");
         handleSubmit(onSubmit)();
       },
     }));

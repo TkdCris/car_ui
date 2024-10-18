@@ -39,7 +39,6 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
     });
 
     const onSubmit: SubmitHandler<PersonRegisterSchema> = async (data) => {
-      console.log("Submitted Data: ", data);
       try {
         const response = await fetch("/api/person", {
           method: "POST",
@@ -50,7 +49,6 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
         });
         if (response.ok) {
           const person = await response.json();
-          console.log("Person registered: ", person);
         } else {
           console.error("Error sending data:", response.status);
         }
