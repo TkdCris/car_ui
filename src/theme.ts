@@ -18,7 +18,7 @@ const theme = extendTheme({
       },
       text: {
         default: '#F3FAFF',
-        _dark: '#5f686e',
+        _dark: '#C2C7C9',
       },
       menu_detail: {
         default: '#6CE898',
@@ -63,7 +63,18 @@ const theme = extendTheme({
         bg: "rgb(9, 9, 10)",
         content: "rgba(19, 19, 20, 1)",
         text: "#5f686e"
-      }
+      },
+      table: {
+        header: {
+          default: '#F1F1F1',
+          _dark: '#354470'
+        },
+        body: {
+          default: '#F3F5F9',
+          _dark: '#394762'
+        },
+      },
+      teste: "#181818"
     },
   },
 });

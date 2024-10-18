@@ -14,6 +14,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SearchSchema, searchSchema } from "@/schemas";
+import { api, setHeaderToken } from "@/services/axios/axios";
 
 type SearchComponentProps<T> = {
   getValues: (value: T | null) => void;
@@ -37,22 +38,15 @@ export function SearchComponent<T>({
       value: "",
     },
   });
+
   const onSubmit = async (data: SearchSchema) => {
+    const token = sessionStorage.getItem("token");
+    if (token) setHeaderToken(token);
+
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        const result = await response.json();
-        getValues(result);
-      } else {
-        getValues(null);
-        console.error("Erro ao enviar dados:", response.status);
-      }
+      const response = await api.get<T>(`${url}?${data.key}=${data.value}`);
+      const result = response.data;
+      if (response) getValues(result);
     } catch (error) {
       getValues(null);
       console.error("Erro ao enviar dados:", error);

@@ -27,7 +27,7 @@ export default function PersonPage() {
             { value: "cpf", label: "CPF" },
             { value: "cnpj", label: "CNPJ" },
           ]}
-          url="https://api/person_search"
+          url={"/persons"}
         />
         {/* Acrescentar prop titles para substituir os nomes das colunas na tabela
           Exemplo: titles={['Nome', 'CPF', 'Email']}. Se não for acrescentado,

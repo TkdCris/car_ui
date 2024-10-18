@@ -30,11 +30,11 @@ export function TableComponent<T extends { [key: string]: any }>({
       h={"full"}
       mx={4}
       p={2}
-      bg={"white"}
+      bg={"table.body"}
       shadow={"md"}
     >
       <Table size="sm">
-        <Thead bg={"app_bg"} shadow={"md"}>
+        <Thead bg={"table.header"} shadow={"md"}>
           <Tr>
             {titleList.map((title, index) => (
               <Th key={index}>{title}</Th>
@@ -45,9 +45,11 @@ export function TableComponent<T extends { [key: string]: any }>({
           {rows &&
             rows.map((row, index) => (
               <Tr key={index}>
-                {Object.values(row).map((value: any, index) => (
-                  <Td key={index}>{value}</Td>
-                ))}
+                {Object.values(row).map((value: any, index) => {
+                  if (typeof value === "string") {
+                    return <Td key={index}>{value}</Td>;
+                  }
+                })}
               </Tr>
             ))}
         </Tbody>
