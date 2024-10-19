@@ -10,11 +10,10 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
-
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SearchSchema, searchSchema } from "@/schemas";
 import { api, setHeaderToken } from "@/services/axios/axios";
+import { useForm } from "react-hook-form";
+
+import { SearchSchema } from "@/schemas";
 
 type SearchComponentProps<T> = {
   getValues: (value: T | null) => void;
@@ -32,9 +31,8 @@ export function SearchComponent<T>({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(searchSchema),
     defaultValues: {
-      key: "",
+      key: "name",
       value: "",
     },
   });

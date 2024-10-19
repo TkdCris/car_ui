@@ -1,10 +1,10 @@
 import { CompanyEntity } from "./basicEntitys";
 
 export interface Person extends CompanyEntity {
-  nome: string,
-  apelido: string,
-  pessoaJuridica: boolean,
-  idCidade?: string,
+  name: string,
+  nickname: string,
+  legalEntity: boolean,
+  countryId?: string,
   cnpj?: string,
   cpf?: string,
   rg?: string,

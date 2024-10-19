@@ -22,7 +22,19 @@ export function TableComponent<T extends { [key: string]: any }>({
 }: TableComponentProps<T>) {
   if (!rows) return null;
 
-  const titleList = titles ? titles : Object.keys(rows[0]);
+  const removeObjectValues = <T extends Record<string, any>>(
+    array: Array<T>
+  ) => {
+    return array.map((row) => {
+      return Object.fromEntries(
+        Object.entries(row).filter(([key, value]) => typeof value !== "object")
+      );
+    });
+  };
+
+  const rowsObjectWithOutObjectOnValues = removeObjectValues(rows);
+  const titlesFromRow = Object.keys(rowsObjectWithOutObjectOnValues[0]);
+  const titleList = titles ? titles : titlesFromRow;
 
   return (
     <TableContainer
@@ -36,6 +48,7 @@ export function TableComponent<T extends { [key: string]: any }>({
       <Table size="sm">
         <Thead bg={"table.header"} shadow={"md"}>
           <Tr>
+            <Th key={"#"}>{"#"}</Th>
             {titleList.map((title, index) => (
               <Th key={index}>{title}</Th>
             ))}
@@ -43,12 +56,19 @@ export function TableComponent<T extends { [key: string]: any }>({
         </Thead>
         <Tbody>
           {rows &&
-            rows.map((row, index) => (
+            rowsObjectWithOutObjectOnValues.map((row, index) => (
               <Tr key={index}>
-                {Object.values(row).map((value: any, index) => {
-                  if (typeof value === "string") {
-                    return <Td key={index}>{value}</Td>;
-                  }
+                <Td>{index + 1}</Td>
+                {Object.values(row).map((value, index) => {
+                  return (
+                    <Td key={index}>
+                      {typeof value === "boolean"
+                        ? value
+                          ? "Sim"
+                          : "Não"
+                        : value}
+                    </Td>
+                  );
                 })}
               </Tr>
             ))}
