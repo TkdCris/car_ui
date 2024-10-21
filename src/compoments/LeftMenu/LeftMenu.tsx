@@ -3,10 +3,13 @@
 import { GiExitDoor } from "react-icons/gi";
 import { ImPrinter } from "react-icons/im";
 import { RiPagesLine } from "react-icons/ri";
-import { BsFillCarFrontFill } from "react-icons/bs";
-import { BsFillPersonFill } from "react-icons/bs";
-import { BsCurrencyDollar } from "react-icons/bs";
-import { Box, Button, Flex, VStack } from "@chakra-ui/react";
+import {
+  BsCurrencyDollar,
+  BsFillCarFrontFill,
+  BsFillPersonFill,
+} from "react-icons/bs";
+import { HamburgerIcon } from "@chakra-ui/icons";
+import { Box, Button, Flex, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -14,8 +17,14 @@ import Link from "next/link";
 import { BtnMenu } from "../BtnMenu";
 import { deleteCookie } from "@/utils/handleCookies";
 
-export function LeftMenu() {
+type LeftMenuProps = {
+  toogleMenu: () => void;
+  isMenuText: boolean;
+};
+
+export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
   const [selected, setSelected] = useState<string | null>(null);
+
   const router = useRouter();
 
   const handleSetSelected = (e: string) => {
@@ -41,15 +50,18 @@ export function LeftMenu() {
       borderColor="app_bg"
     >
       <VStack width="100%" alignItems="start" pt={4}>
-        <Box pl={4}>Menu</Box>
-        <Box w={"100%"}>
+        <Flex alignItems="center" gap={4} h={8} ml={4} onClick={toogleMenu}>
+          <HamburgerIcon />
+          <Box display={isMenuText ? "flex" : "none"}>Menu</Box>
+        </Flex>
+        <Box w={"100%"} alignItems={"start"}>
           <Link href="/person" passHref={true}>
             <BtnMenu
               isSelected={selected === "person"}
               onClick={() => handleSetSelected("person")}
+              icon={<BsFillPersonFill />}
             >
-              <BsFillPersonFill />
-              Pessoas
+              <Text display={isMenuText ? "flex" : "none"}>Pessoas</Text>
             </BtnMenu>
           </Link>
         </Box>
@@ -58,9 +70,9 @@ export function LeftMenu() {
             <BtnMenu
               isSelected={selected === "vehicle"}
               onClick={() => handleSetSelected("vehicle")}
+              icon={<BsFillCarFrontFill />}
             >
-              <BsFillCarFrontFill />
-              Veículos
+              <Text display={isMenuText ? "flex" : "none"}>Veículos</Text>
             </BtnMenu>
           </Link>
         </Box>
@@ -69,9 +81,9 @@ export function LeftMenu() {
             <BtnMenu
               isSelected={selected === "financial"}
               onClick={() => handleSetSelected("financial")}
+              icon={<BsCurrencyDollar />}
             >
-              <BsCurrencyDollar />
-              Financeiro
+              <Text display={isMenuText ? "flex" : "none"}>Financeiro</Text>
             </BtnMenu>
           </Link>
         </Box>
@@ -80,9 +92,9 @@ export function LeftMenu() {
             <BtnMenu
               isSelected={selected === "fiscal"}
               onClick={() => handleSetSelected("fiscal")}
+              icon={<RiPagesLine />}
             >
-              <RiPagesLine />
-              Notas Fiscais
+              <Text display={isMenuText ? "flex" : "none"}>Notas Fiscais</Text>
             </BtnMenu>
           </Link>
         </Box>
@@ -91,19 +103,19 @@ export function LeftMenu() {
             <BtnMenu
               isSelected={selected === "reports"}
               onClick={() => handleSetSelected("reports")}
+              icon={<ImPrinter />}
             >
-              <ImPrinter />
-              Relatórios
+              <Text display={isMenuText ? "flex" : "none"}>Relatórios</Text>
             </BtnMenu>
           </Link>
         </Box>
       </VStack>
 
       <Flex w={"100%"} borderTop={1} borderStyle="solid" borderColor="app_bg">
-        <Flex px={8} py={2} alignItems="center" gap={4}>
-          <GiExitDoor />
-          <Button color="text" variant="link" onClick={handleSignOut}>
-            Sair
+        <Flex h={8} pl={isMenuText ? 4 : 1} py={2} alignItems="center">
+          <Button color="text" variant="link" gap={4} onClick={handleSignOut}>
+            <GiExitDoor />
+            <Text display={isMenuText ? "flex" : "none"}>Sair</Text>
           </Button>
         </Flex>
       </Flex>

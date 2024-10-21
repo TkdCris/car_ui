@@ -63,21 +63,29 @@ export default function Login() {
         p={10}
         bg="login.content"
         rounded={"md"}
-        color={"input.text"}
+        color={"login.text"}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Center>
-            <FormLabel display={"flex"} pb={6} fontSize={30} color={"white"}>
-              Faça seu Login
+            <FormLabel display={"flex"} pb={6} fontSize={30}>
+              Controle Auto Revenda
             </FormLabel>
           </Center>
           <FormControl>
             <FormLabel>Email</FormLabel>
-            <Input {...register("email")} placeholder="Digite seu email" />
+            <Input
+              {...register("email")}
+              placeholder="Digite seu email"
+              borderColor={"login.text"}
+            />
           </FormControl>
           <FormControl mt={4}>
             <FormLabel>Senha</FormLabel>
-            <Input {...register("password")} placeholder="Digite sua senha" />
+            <Input
+              {...register("password")}
+              placeholder="Digite sua senha"
+              borderColor={"login.text"}
+            />
           </FormControl>
           <FormControl>
             <Button type="submit" mt={8} colorScheme="blue" w="100%">

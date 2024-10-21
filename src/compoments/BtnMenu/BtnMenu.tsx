@@ -1,17 +1,19 @@
-import { Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import React from "react";
 
 interface BtnMenuProps {
   children: React.ReactNode;
   isSelected?: boolean;
   onClick?: () => void;
+  icon?: React.ReactNode;
 }
 
-export function BtnMenu({ children, isSelected, onClick }: BtnMenuProps) {
+export function BtnMenu({ icon, children, isSelected, onClick }: BtnMenuProps) {
   return (
     <Button
       variant={"unstyled"}
-      h={7}
-      pl={8}
+      h={8}
+      pl={4}
       cursor="pointer"
       _hover={{
         transition: "background-color 0.2s",
@@ -26,6 +28,7 @@ export function BtnMenu({ children, isSelected, onClick }: BtnMenuProps) {
       onClick={onClick}
     >
       <Flex alignItems="center" gap={4}>
+        <Box>{icon}</Box>
         {children}
       </Flex>
     </Button>

@@ -60,9 +60,10 @@ const theme = extendTheme({
         }
       },
       login: {
-        bg: "rgb(9, 9, 10)",
-        content: "rgba(19, 19, 20, 1)",
-        text: "#5f686e"
+        bg: "#13121B",
+        content: "#1F1B2C",
+        text: "#9B98CA",
+        input_text: "#c0f1f2"
       },
       table: {
         header: {
