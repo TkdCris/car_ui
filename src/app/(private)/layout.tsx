@@ -46,10 +46,9 @@ export default function Layout({
       <Box as="main" flex="1" bg="app_bg">
         <HStack height="100%" gap={0}>
           <Box
-            transform={"auto"}
-            transition={"ease-in-out"}
+            transition="width 0.3s ease-in-out"
             height="100%"
-            width={isMenuText ? 250 : 12}
+            width={isMenuText ? 240 : 12}
           >
             <LeftMenu toogleMenu={toogleMenu} isMenuText={isMenuText} />
           </Box>

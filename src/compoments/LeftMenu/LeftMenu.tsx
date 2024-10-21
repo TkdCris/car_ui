@@ -48,11 +48,18 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
       borderTop={1}
       borderStyle="solid"
       borderColor="app_bg"
+      pl={{ base: 0, md: 4 }}
+      pr={{ base: 4, md: 8 }}
     >
       <VStack width="100%" alignItems="start" pt={4}>
         <Flex alignItems="center" gap={4} h={8} ml={4} onClick={toogleMenu}>
           <HamburgerIcon />
-          <Box display={isMenuText ? "flex" : "none"}>Menu</Box>
+          <Box
+            opacity={isMenuText ? 1 : 0}
+            transition="opacity 0.3s ease-in-out"
+          >
+            Menu
+          </Box>
         </Flex>
         <Box w={"100%"} alignItems={"start"}>
           <Link href="/person" passHref={true}>
@@ -61,7 +68,12 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
               onClick={() => handleSetSelected("person")}
               icon={<BsFillPersonFill />}
             >
-              <Text display={isMenuText ? "flex" : "none"}>Pessoas</Text>
+              <Text
+                opacity={isMenuText ? 1 : 0}
+                transition="opacity 0.3s ease-in-out"
+              >
+                Pessoas
+              </Text>
             </BtnMenu>
           </Link>
         </Box>
@@ -72,7 +84,12 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
               onClick={() => handleSetSelected("vehicle")}
               icon={<BsFillCarFrontFill />}
             >
-              <Text display={isMenuText ? "flex" : "none"}>Veículos</Text>
+              <Text
+                opacity={isMenuText ? 1 : 0}
+                transition="opacity 0.3s ease-in-out"
+              >
+                Veículos
+              </Text>
             </BtnMenu>
           </Link>
         </Box>
@@ -83,7 +100,12 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
               onClick={() => handleSetSelected("financial")}
               icon={<BsCurrencyDollar />}
             >
-              <Text display={isMenuText ? "flex" : "none"}>Financeiro</Text>
+              <Text
+                opacity={isMenuText ? 1 : 0}
+                transition="opacity 0.3s ease-in-out"
+              >
+                Financeiro
+              </Text>
             </BtnMenu>
           </Link>
         </Box>
@@ -94,7 +116,12 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
               onClick={() => handleSetSelected("fiscal")}
               icon={<RiPagesLine />}
             >
-              <Text display={isMenuText ? "flex" : "none"}>Notas Fiscais</Text>
+              <Text
+                opacity={isMenuText ? 1 : 0}
+                transition="opacity 0.3s ease-in-out"
+              >
+                Notas Fiscais
+              </Text>
             </BtnMenu>
           </Link>
         </Box>
@@ -105,17 +132,27 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
               onClick={() => handleSetSelected("reports")}
               icon={<ImPrinter />}
             >
-              <Text display={isMenuText ? "flex" : "none"}>Relatórios</Text>
+              <Text
+                opacity={isMenuText ? 1 : 0}
+                transition="opacity 0.3s ease-in-out"
+              >
+                Relatórios
+              </Text>
             </BtnMenu>
           </Link>
         </Box>
       </VStack>
 
       <Flex w={"100%"} borderTop={1} borderStyle="solid" borderColor="app_bg">
-        <Flex h={8} pl={isMenuText ? 4 : 1} py={2} alignItems="center">
+        <Flex h={8} pl={4} py={2} alignItems="center">
           <Button color="text" variant="link" gap={4} onClick={handleSignOut}>
             <GiExitDoor />
-            <Text display={isMenuText ? "flex" : "none"}>Sair</Text>
+            <Text
+              opacity={isMenuText ? 1 : 0}
+              transition="opacity 0.3s ease-in-out"
+            >
+              Sair
+            </Text>
           </Button>
         </Flex>
       </Flex>
