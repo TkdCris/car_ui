@@ -1,9 +1,9 @@
-import { Person } from "@/models"
+import { PersonToTableList } from "@/models"
 import { api } from "@/services/axios/axios"
 import { useQuery } from "@tanstack/react-query"
 
 const getPersons = async () => {
-  const res = await api.get<Person[] | null>(`/persons`)
+  const res = await api.get<PersonToTableList[] | null>(`/persons`)
   return res.data
 }
 

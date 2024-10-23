@@ -5,20 +5,22 @@ import { useState } from "react";
 
 import { ContentHeader, SearchComponent, TableComponent } from "@/compoments";
 import { PersonRegisterDrawer } from "./(register)";
-import { Person } from "@/models";
 import { usePersonList } from "@/hooks/requests/usePersonList";
+import { PersonToTableList } from "@/models";
 
 export default function PersonPage() {
-  const [personList, setPersonList] = useState<Person[] | null>(null);
+  const [personList, setPersonList] = useState<PersonToTableList[] | null>(
+    null
+  );
 
-  const handleGetValues = (value: Person[] | null) => {
+  const handleGetValues = (value: PersonToTableList[] | null) => {
     setPersonList(value);
   };
 
   const persons = personList?.map((person) => ({
     name: person.name,
     email: person.email,
-  })) as Person[] | null;
+  })) as PersonToTableList[] | null;
 
   return (
     <Box w={"full"} h={"full"}>
@@ -26,7 +28,7 @@ export default function PersonPage() {
         <PersonRegisterDrawer />
       </ContentHeader>
       <VStack px={8}>
-        <SearchComponent<Person[]>
+        <SearchComponent<PersonToTableList[]>
           getValues={handleGetValues}
           arrayOptions={[
             { value: "name", label: "Nome" },
@@ -38,7 +40,10 @@ export default function PersonPage() {
         {/* Acrescentar prop titles para substituir os nomes das colunas na tabela
           Exemplo: titles={['Nome', 'CPF', 'Email']}.
           Se titles não for passado, os nomes das colunas serão as chaves do objeto */}
-        <TableComponent<Person> titles={["Nome", "Email"]} rows={persons} />
+        <TableComponent<PersonToTableList>
+          titles={["Nome", "Email"]}
+          rows={persons}
+        />
       </VStack>
     </Box>
   );
