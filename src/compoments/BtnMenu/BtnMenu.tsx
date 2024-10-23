@@ -14,6 +14,7 @@ export function BtnMenu({ icon, children, isSelected, onClick }: BtnMenuProps) {
       variant={"unstyled"}
       h={8}
       pl={4}
+      pr={{ base: 4, md: 8 }}
       cursor="pointer"
       _hover={{
         transition: "background-color 0.2s",

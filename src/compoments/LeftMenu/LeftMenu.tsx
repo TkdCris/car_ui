@@ -48,8 +48,6 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
       borderTop={1}
       borderStyle="solid"
       borderColor="app_bg"
-      pl={{ base: 0, md: 4 }}
-      pr={{ base: 4, md: 8 }}
     >
       <VStack width="100%" alignItems="start" pt={4}>
         <Flex alignItems="center" gap={4} h={8} ml={4} onClick={toogleMenu}>
