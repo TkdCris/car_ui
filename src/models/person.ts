@@ -1,34 +1,38 @@
 import { CommonEntity } from "./basicEntitys";
 
-export interface AbstractPerson extends CommonEntity {
-  id: string;
-  idCompany: string;
-
-  name: string; // (tag: <xNome>)
-  email: string;
-  legalEntity: boolean,
-  observation?: string;
-
-  /** Endereço completo */
-  address?: string; // (tag: <ender>)
-  /** Código IBGE do município */
-  cityCode?: string; // (tag: <cMun>)
-  /** Nome da cidade */
-  city?: string; // (tag: <xMun>)
-  /** Sigla do estado (UF) */
-  state?: string; // (tag: <UF>)
-  /** Código postal (CEP) */
+export interface Location {
+  address?: string; /** Endereço completo (tag: <ender>) */
+  city?: string; /** Nome da cidade (tag: <xMun>) */
+  number?: string;
+  complement?: string;
+  state?: string; // Sigla do estado (UF) (tag: <UF>)
   postalCode?: string; // (tag: <CEP>)
-  /** Telefone de contato */
+}
+
+export interface AbstractPerson extends CommonEntity {
+  idCompany: string;
+  name: string; // (tag: <xNome>)
+  nickname?: string;
+  email?: string;
   phone?: string; // (tag: <fone>)
   cellphone?: string;
+  notary?: string; // Cartório
+  location: Location;
+  observation?: string;
+}
+
+export interface LegalEntity extends AbstractPerson {
+  cnpj?: string; // (tag: <CNPJ>)
+  ie?: string; // (tag: <IE>) Inscrição estadual
+  im?: string; // Inscrição Municipal
+  /** Regime tributário (Ex: 1 para Simples Nacional, 2 para Regime Normal) */
+  taxRegime?: string; // (tag: <CRT>)
+  suframa?: string; // SUFRAMA
+  icmsTaxpayer?: boolean; // Contribuinte ICMS
 }
 
 export interface NaturalPerson extends AbstractPerson {
-  nickname?: string;
-  cpf?: string; // (tag: <CPF>)
-  /** Situação tributária (Ex: 1 para contribuinte ICMS, 2 para isento) */
-  taxStatus?: string; // (tag: <indIEDest>)
+  cpf: string; // (tag: <CPF>)
   rg?: string;
   birthday?: string;
   fatherName?: string;
@@ -36,27 +40,15 @@ export interface NaturalPerson extends AbstractPerson {
   crc?: string; // Conselho Regional de Contabilidade
 }
 
-export interface LegalEntity extends AbstractPerson {
-  fantasyName?: string; // (tag: <xFant>)
-  cnpj?: string; // (tag: <CNPJ>)
-  ie?: string; // (tag: <IE>) Inscrição estadual
-  /** Regime tributário (Ex: 1 para Simples Nacional, 2 para Regime Normal) */
-  taxRegime?: string; // (tag: <CRT>)
-  im?: string; // Inscrição Municipal
-  suframa?: string; // SUFRAMA
-  /** Registration in the notary's office */
-  notaryOfficeRegistration?: string; // Cartório
-  /** Indicates if the company is an ICMS taxpayer */
-  icmsTaxpayer?: boolean; // Contribuinte ICMS
-}
 
-export type Client = NaturalPerson | LegalEntity; // Um cliente pode ser tanto uma pessoa física quanto uma pessoa jurídica
+// Um cliente pode ser tanto uma pessoa física quanto uma pessoa jurídica
+export type Client = NaturalPerson | LegalEntity;
 
-export interface Authenticated {
+export interface Logged {
   id: string;
   fullName: string;
   role: string;
   token: string;
 }
 
-export interface PersonToTableList extends Pick<Client, "id" | "name" | "email" | "legalEntity"> {}
+export interface PersonToTableList extends Pick<Client, "id" | "name" | "email"> {}
