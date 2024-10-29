@@ -63,17 +63,17 @@ EXPOSE 3000
 
 ENV PORT=3000
 
-# Define a variável como argumento do Docker
-ARG NEXT_PUBLIC_AUTH_URL
+# # Define a variável como argumento do Docker
+# ARG NEXT_PUBLIC_AUTH_URL
 
-# Define a variável de ambiente no ambiente de execução
-ENV NEXT_PUBLIC_AUTH_URL=${NEXT_PUBLIC_AUTH_URL}
+# # Define a variável de ambiente no ambiente de execução
+# ENV NEXT_PUBLIC_AUTH_URL=${NEXT_PUBLIC_AUTH_URL}
 
-# Define a variável como argumento do Docker
-ARG NEXT_PUBLIC_BASE_URL
+# # Define a variável como argumento do Docker
+# ARG NEXT_PUBLIC_BASE_URL
 
-# Define a variável de ambiente no ambiente de execução
-ENV NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+# # Define a variável de ambiente no ambiente de execução
+# ENV NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
