@@ -23,7 +23,7 @@ jobs:
       - name: Login Docker hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
       - name: Build docker image
-        run: docker build -t tkdcris/car-frontend .
+        run: docker build -t tkdcris/car-frontend:latest .
       - name: Push image docker
         run: docker push tkdcris/car-frontend
 
@@ -33,5 +33,7 @@ jobs:
     steps:
       - name: Pull image from docker hub
         run: docker pull tkdcris/car-frontend:latest
+      - name: Remove docker container
+        run: docker rm -f car-frontend
       - name: Run docker container
         run: docker run -d -p 3002:3000 -e NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}} -e NEXT_PUBLIC_AUTH_URL=${{secrets.NEXT_PUBLIC_AUTH_URL}} --name car-frontend tkdcris/car-frontend
