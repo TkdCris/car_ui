@@ -26,3 +26,12 @@ jobs:
         run: docker build -t tkdcris/car-frontend .
       - name: Push image docker
         run: docker push tkdcris/car-frontend
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull tkdcris/car-frontend:latest
+      - name: Run docker container
+        run: docker run -d -p 3002:3000 -e NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}} -e NEXT_PUBLIC_AUTH_URL=${{secrets.NEXT_PUBLIC_AUTH_URL}} --name car-frontend tkdcris/car-frontend
