@@ -13,8 +13,11 @@ import {
   Stack,
 } from "@chakra-ui/react";
 
-import { type PersonRegisterSchema, personRegisterSchema } from "@/schemas";
 import { DrawerInput } from "@/compoments";
+import {
+  naturalPersonRegisterSchema,
+  NaturalPersonRegisterSchema,
+} from "@/schemas";
 
 type RegisterFormHandle = {
   requestSubmit: () => void;
@@ -26,19 +29,21 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm<PersonRegisterSchema>({
-      resolver: zodResolver(personRegisterSchema),
+    } = useForm<NaturalPersonRegisterSchema>({
+      resolver: zodResolver(naturalPersonRegisterSchema),
       defaultValues: {
-        legalEntity: false,
         name: "",
-        documentNumber: "",
+        nickname: "",
+        cpf: "",
         phone: "",
         email: "",
         birthdate: "",
       },
     });
 
-    const onSubmit: SubmitHandler<PersonRegisterSchema> = async (data) => {
+    const onSubmit: SubmitHandler<NaturalPersonRegisterSchema> = async (
+      data
+    ) => {
       try {
         const response = await fetch("/api/person", {
           method: "POST",
@@ -95,13 +100,13 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
                   </FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={!!errors.documentNumber}>
+                <FormControl isInvalid={!!errors.cpf}>
                   <Box position="relative">
                     <DrawerInput
                       title="CPF"
                       type="text"
                       placeholder="Informe o CPF *"
-                      register={register("documentNumber")}
+                      register={register("cpf")}
                     />
                     <FormErrorMessage
                       position="absolute"
@@ -109,7 +114,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
                       right="0"
                       mt={1}
                     >
-                      {errors.documentNumber?.message}
+                      {errors.cpf?.message}
                     </FormErrorMessage>
                   </Box>
                 </FormControl>

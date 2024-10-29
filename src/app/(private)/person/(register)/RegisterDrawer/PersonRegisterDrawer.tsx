@@ -56,7 +56,7 @@ export function PersonRegisterDrawer() {
                   Pessoa Jurídica
                 </Tab>
               </TabList>
-              <TabPanels>
+              <TabPanels bg={"drawer.bg"}>
                 <TabPanel px={0}>
                   <NaturalPersonRegisterForm ref={formRef} />
                 </TabPanel>
