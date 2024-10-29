@@ -15,5 +15,14 @@ jobs:
         with:
           node-version: 20
           cache: "npm"
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
+      - name: Building project
+        run: npm run build
+
+      - name: Login Docker hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+      - name: Build docker image
+        run: docker build -t tkdcris/car-frontend .
+      - name: Push image docker
+        run: docker push tkdcris/car-frontend
