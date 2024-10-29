@@ -25,7 +25,7 @@ jobs:
       - name: Build docker image
         run: docker build -t tkdcris/car-frontend:latest .
       - name: Push image docker
-        run: docker push tkdcris/car-frontend
+        run: docker push tkdcris/car-frontend:latest
 
   deploy:
     needs: build
