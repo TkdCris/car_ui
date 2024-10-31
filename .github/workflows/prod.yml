@@ -22,10 +22,9 @@ jobs:
 
       - name: Login Docker hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+
       - name: Build docker image
-        run: docker build -t tkdcris/car-frontend:latest \
-          --build-arg NEXT_PUBLIC_AUTH_URL=${{secrets.NEXT_PUBLIC_AUTH_URL}} \
-          --build-arg NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}} .
+        run: docker build -t tkdcris/car-frontend:latest --build-arg NEXT_PUBLIC_AUTH_URL=${{secrets.NEXT_PUBLIC_AUTH_URL}} --build-arg NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}} .
 
       - name: Push image docker
         run: docker push tkdcris/car-frontend:latest
