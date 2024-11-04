@@ -75,13 +75,18 @@ const theme = extendTheme({
           _dark: '#394762'
         },
       },
-      teste: "#181818",
       drawer: {
         bg: {
-          default: "#EBF3FF",
-          _dark: ""
+          default: "#f2f2f2",
+          _dark: "#111111"
+        },
+        content: {
+          default: "white",
+          _dark: "#131415"
         }
-      }
+      },
+      teste: "#1A1A1E",
+
     },
   },
 });

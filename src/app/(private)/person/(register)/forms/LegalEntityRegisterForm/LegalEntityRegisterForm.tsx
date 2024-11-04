@@ -88,7 +88,7 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
       };
 
       return (
-        <Card>
+        <Card bg={"drawer.content"}>
           <CardHeader>
             <Heading size="md">{"Dados da empresa"}</Heading>
           </CardHeader>
@@ -198,7 +198,7 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     function documentationCard() {
       return (
-        <Card>
+        <Card bg={"drawer.content"}>
           <CardHeader>
             <Heading size="md">{"Documentação"}</Heading>
           </CardHeader>
@@ -266,7 +266,7 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     function adressCard() {
       return (
-        <Card>
+        <Card bg={"drawer.content"}>
           <CardHeader>
             <Heading size="md">{"Endereço"}</Heading>
           </CardHeader>
@@ -365,7 +365,7 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     function observationCard() {
       return (
-        <Card>
+        <Card bg={"drawer.content"}>
           <CardHeader>
             <Heading size="md">{"Observação"}</Heading>
           </CardHeader>
@@ -383,7 +383,7 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Flex flexDirection={"column"} gap="4" bg="drawer.bg" shadow="lg">
+        <Flex flexDirection={"column"} gap="2" shadow="lg">
           {companyCard()}
           {documentationCard()}
           {adressCard()}

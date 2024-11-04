@@ -42,7 +42,8 @@ export function PersonRegisterDrawer() {
         size="lg"
       >
         <DrawerOverlay />
-        <DrawerContent>
+
+        <DrawerContent bg={"drawer.bg"}>
           <DrawerCloseButton />
           <DrawerHeader fontWeight={"bold"}>Cadastrar</DrawerHeader>
 
@@ -56,7 +57,7 @@ export function PersonRegisterDrawer() {
                   Pessoa Jurídica
                 </Tab>
               </TabList>
-              <TabPanels bg={"drawer.bg"}>
+              <TabPanels>
                 <TabPanel px={0}>
                   <NaturalPersonRegisterForm ref={formRef} />
                 </TabPanel>

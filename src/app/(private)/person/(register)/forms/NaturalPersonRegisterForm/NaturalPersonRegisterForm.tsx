@@ -82,7 +82,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     function personCard() {
       return (
-        <Card>
+        <Card bg={"drawer.content"}>
           <CardHeader>
             <Heading size="md">{"Dados pessoais"}</Heading>
           </CardHeader>
@@ -191,7 +191,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     function documentationCard() {
       return (
-        <Card>
+        <Card bg={"drawer.content"}>
           <CardHeader>
             <Heading size="md">{"Documentação"}</Heading>
           </CardHeader>
@@ -259,7 +259,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     function adressCard() {
       return (
-        <Card>
+        <Card bg={"drawer.content"}>
           <CardHeader>
             <Heading size="md">{"Endereço"}</Heading>
           </CardHeader>
@@ -358,7 +358,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     function observationCard() {
       return (
-        <Card>
+        <Card bg={"drawer.content"}>
           <CardHeader>
             <Heading size="md">{"Observação"}</Heading>
           </CardHeader>
@@ -376,7 +376,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Flex flexDirection={"column"} gap="4" bg="bg_form" shadow="lg">
+        <Flex flexDirection={"column"} gap="2">
           {personCard()}
           {documentationCard()}
           {adressCard()}
