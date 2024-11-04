@@ -38,8 +38,7 @@ export function SearchComponent<T>({
   });
 
   const onSubmit = async (data: SearchSchema) => {
-    const token = sessionStorage.getItem("token");
-    if (token) setHeaderToken(token);
+    setHeaderToken();
 
     try {
       const response = await api.get<T>(`${url}?${data.key}=${data.value}`);

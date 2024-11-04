@@ -17,8 +17,8 @@ const basicPersonSchema = z.object({
   phone: z.string(),
   cellphone: z.string(),
   notary: z.string(),
-  location: locationSchema,
   observation: z.string(),
+  location: locationSchema,
 })
 
 export const legalEntityRegisterSchema = basicPersonSchema
@@ -28,7 +28,7 @@ export const legalEntityRegisterSchema = basicPersonSchema
     im: z.string(),
     taxRegime: z.string(),
     suframa: z.string(),
-    icmsTaxpayer: z.boolean(),
+    icmsTaxPayer: z.boolean(),
   }))
 
 export const naturalPersonRegisterSchema = basicPersonSchema

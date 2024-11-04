@@ -21,7 +21,7 @@ import {
   legalEntityRegisterSchema,
 } from "@/schemas";
 import { DrawerInput } from "@/compoments";
-import { api } from "@/services/axios/axios";
+import { api, setHeaderToken } from "@/services/axios/axios";
 
 type RegisterFormHandle = {
   requestSubmit: () => void;
@@ -36,31 +36,41 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
     } = useForm<LegalEntityRegisterSchema>({
       resolver: zodResolver(legalEntityRegisterSchema),
       defaultValues: {
+        idCompany: "",
         name: "",
         nickname: "",
         email: "",
+        phone: "",
+        cellphone: "",
+        notary: "",
+        observation: "",
+        location: {
+          address: "",
+          city: "",
+          number: "",
+          complement: "",
+          state: "",
+          postalCode: "",
+        },
         cnpj: "",
         ie: "",
         im: "",
         taxRegime: "",
         suframa: "",
-        notary: "",
-        icmsTaxpayer: false,
-        phone: "",
-        cellphone: "",
-        observation: "",
+        icmsTaxPayer: false,
       },
     });
 
-    const [isIcmsTaxpayer, setIsIcmsTaxPayer] = useState(false);
+    const [isIcmsTaxPayer, setIsIcmsTaxPayer] = useState(false);
     const [observation, setObservation] = useState("");
 
     const onSubmit: SubmitHandler<LegalEntityRegisterSchema> = async (data) => {
-      data.icmsTaxpayer = isIcmsTaxpayer;
+      setHeaderToken();
+      data.icmsTaxPayer = isIcmsTaxPayer;
       data.observation = observation;
 
       try {
-        const response = await api.post("/persons", data);
+        await api.post("/persons", data);
       } catch (error) {
         console.error(error);
       }
