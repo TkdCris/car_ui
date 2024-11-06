@@ -10,6 +10,7 @@ export interface Location {
 }
 
 export interface AbstractPerson extends CommonEntity {
+  legalEntity: boolean;
   idCompany: string;
   name: string; // (tag: <xNome>)
   nickname?: string;
@@ -51,4 +52,4 @@ export interface Logged {
   token: string;
 }
 
-export interface PersonToTableList extends Pick<Client, "id" | "name" | "email"> {}
+export interface PersonToTableList extends Pick<Client, "id" | "name" | "email" | "legalEntity"> {}

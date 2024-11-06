@@ -10,6 +10,7 @@ export const locationSchema = z.object({
 });
 
 const basicPersonSchema = z.object({
+  legalEntity: z.boolean(),
   idCompany: z.string(),
   name: z.string().min(1, { message: "Informe o nome!" }),
   nickname: z.string(),

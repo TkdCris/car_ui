@@ -34,6 +34,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
     } = useForm<NaturalPersonRegisterSchema>({
       resolver: zodResolver(naturalPersonRegisterSchema),
       defaultValues: {
+        legalEntity: false,
         idCompany: "",
         name: "",
         nickname: "",
@@ -163,7 +164,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
                   <DrawerInput
                     title="Telefone"
                     type="text"
-                    placeholder="Telefone comercial"
+                    placeholder="Telefone fixo"
                     register={register("phone")}
                   />
                   <FormErrorMessage
@@ -257,7 +258,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
       );
     }
 
-    function adressCard() {
+    function addressCard() {
       return (
         <Card bg={"drawer.content"}>
           <CardHeader>
@@ -379,7 +380,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
         <Flex flexDirection={"column"} gap="2">
           {personCard()}
           {documentationCard()}
-          {adressCard()}
+          {addressCard()}
           {observationCard()}
         </Flex>
       </form>

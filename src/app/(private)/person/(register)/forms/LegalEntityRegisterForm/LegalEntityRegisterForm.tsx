@@ -36,6 +36,7 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
     } = useForm<LegalEntityRegisterSchema>({
       resolver: zodResolver(legalEntityRegisterSchema),
       defaultValues: {
+        legalEntity: true,
         idCompany: "",
         name: "",
         nickname: "",

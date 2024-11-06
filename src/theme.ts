@@ -83,6 +83,10 @@ const theme = extendTheme({
         content: {
           default: "white",
           _dark: "#131415"
+        },
+        text: {
+          default: "input.text",
+          _dark: "input.text"
         }
       },
       teste: "#1A1A1E",

@@ -5,7 +5,6 @@ import { useState } from "react";
 
 import { ContentHeader, SearchComponent, TableComponent } from "@/compoments";
 import { PersonRegisterDrawer } from "./(register)";
-import { usePersonList } from "@/hooks/requests/usePersonList";
 import { PersonToTableList } from "@/models";
 
 export default function PersonPage() {
@@ -18,8 +17,10 @@ export default function PersonPage() {
   };
 
   const persons = personList?.map((person) => ({
+    id: person.id,
     name: person.name,
     email: person.email,
+    legalEntity: person.legalEntity,
   })) as PersonToTableList[] | null;
 
   return (
@@ -41,8 +42,9 @@ export default function PersonPage() {
           Exemplo: titles={['Nome', 'CPF', 'Email']}.
           Se titles não for passado, os nomes das colunas serão as chaves do objeto */}
         <TableComponent<PersonToTableList>
-          titles={["Nome", "Email"]}
+          titles={["Nome", "Email", "Pessoa Jurídica"]}
           rows={persons}
+          data={personList}
         />
       </VStack>
     </Box>
