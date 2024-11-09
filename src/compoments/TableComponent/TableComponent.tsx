@@ -26,6 +26,10 @@ export function TableComponent<T extends { [key: string]: any }>({
   data,
   footer = false,
 }: TableComponentProps<T>) {
+  interface DrawerRef {
+    handleOpenDrawer: (data: T) => void;
+  }
+
   const drawerInfRef = React.useRef<DrawerRef | null>();
 
   if (!rows) return null;
@@ -43,10 +47,6 @@ export function TableComponent<T extends { [key: string]: any }>({
   const getRowById = (id: string) => {
     return data && data.find((row) => row.id === id);
   };
-
-  interface DrawerRef {
-    handleOpenDrawer: (data: T) => void;
-  }
 
   const handleOpenInfoDrawer = (data: T) => {
     if (drawerInfRef.current) {

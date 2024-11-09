@@ -23,19 +23,14 @@ import {
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 
 import { Client, LegalEntity, NaturalPerson } from "@/models";
+import { PersonEditDrawer } from "../../(edit)";
 
 export const PersonInfoDrawer = forwardRef((props, ref) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [person, setPerson] = useState<Client>();
 
   const btnRef = React.useRef(null);
-  const formRef = React.useRef<HTMLFormElement>(null);
-
-  const handleEdit = () => {
-    if (formRef.current) {
-      formRef.current.requestSubmit();
-    }
-  };
+  const drawerEditRef = React.useRef<HTMLFormElement>(null);
 
   useImperativeHandle(ref, () => ({
     handleOpenDrawer: (data: any) => {
@@ -44,11 +39,67 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
     },
   }));
 
+  const handleEdit = (data: Client) => {
+    onClose();
+    if (drawerEditRef.current) {
+      drawerEditRef.current.handleOpenEditDrawer(data);
+    }
+  };
+
   function personalData() {
     return (
-      <Box>
+      <Box overflow={"auto"} maxW={"100%"}>
         <Heading mb={2} size={"md"}>
           Dados pessoais
+        </Heading>
+        <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
+          <HStack>
+            <Text minW={"6rem"} as="b">
+              Nome:
+            </Text>
+            <Text>{person?.name}</Text>
+          </HStack>
+          <HStack>
+            <Text minW={"6rem"} as="b">
+              Apelido:
+            </Text>
+            <Text>{person?.nickname}</Text>
+          </HStack>
+          <HStack>
+            <Text minW={"6rem"} as="b">
+              Email:
+            </Text>
+            <Text>{person?.email}</Text>
+          </HStack>
+
+          <HStack>
+            <Text minW={"6rem"} as="b">
+              Celular:
+            </Text>
+            <Text>{person?.cellphone}</Text>
+          </HStack>
+          <HStack>
+            <Text minW={"6rem"} as="b">
+              Tel fixo:
+            </Text>
+            <Text>{person?.phone}</Text>
+          </HStack>
+          <HStack>
+            <Text minW={"6rem"} as="b">
+              Nascimento:
+            </Text>
+            <Text>{(person as NaturalPerson)?.birthdate}</Text>
+          </HStack>
+        </VStack>
+      </Box>
+    );
+  }
+
+  function companyData() {
+    return (
+      <Box overflow={"auto"} maxW={"100%"}>
+        <Heading mb={2} size={"md"}>
+          Dados da Empresa
         </Heading>
         <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
           <HStack>
@@ -59,7 +110,7 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
           </HStack>
           <HStack>
             <Text minW={"8rem"} as="b">
-              Apelido:
+              Nome Fantasia:
             </Text>
             <Text>{person?.nickname}</Text>
           </HStack>
@@ -69,7 +120,6 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
             </Text>
             <Text>{person?.email}</Text>
           </HStack>
-
           <HStack>
             <Text minW={"8rem"} as="b">
               Celular:
@@ -78,39 +128,15 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
           </HStack>
           <HStack>
             <Text minW={"8rem"} as="b">
-              Tel fixo:
+              Telefone:
             </Text>
             <Text>{person?.phone}</Text>
           </HStack>
           <HStack>
             <Text minW={"8rem"} as="b">
-              Nascimento:
+              Contribuinte ICMS:
             </Text>
-            <Text>{(person as NaturalPerson)?.birthday}</Text>
-          </HStack>
-        </VStack>
-      </Box>
-    );
-  }
-
-  function companyData() {
-    return (
-      <Box>
-        <Heading mb={2} size={"md"}>
-          Dados da Empresa
-        </Heading>
-        <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
-          <HStack>
-            <Text as="b">nome:</Text>
-            <Text>{person?.name}</Text>
-          </HStack>
-          <HStack>
-            <Text as="b">Nome Fantasia:</Text>
-            <Text>{person?.nickname}</Text>
-          </HStack>
-          <HStack>
-            <Text as="b">Email:</Text>
-            <Text>{person?.email}</Text>
+            <Text>{(person as LegalEntity)?.icmsTaxPayer ? "Sim" : "Não"}</Text>
           </HStack>
         </VStack>
       </Box>
@@ -119,25 +145,25 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
 
   function naturalPersonDocumentationData() {
     return (
-      <Box>
+      <Box overflow={"auto"} maxW={"100%"}>
         <Heading mb={2} size={"md"}>
           Documentação
         </Heading>
         <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"3rem"} as="b">
               CPF:
             </Text>
             <Text>{(person as NaturalPerson)?.cpf}</Text>
           </HStack>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"3rem"} as="b">
               RG:
             </Text>
             <Text>{(person as NaturalPerson)?.rg}</Text>
           </HStack>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"3rem"} as="b">
               CRC:
             </Text>
             <Text>{(person as NaturalPerson)?.crc}</Text>
@@ -149,25 +175,25 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
 
   function legalEntityDocumentationData() {
     return (
-      <Box>
+      <Box overflow={"auto"} maxW={"100%"}>
         <Heading mb={2} size={"md"}>
           Documentação
         </Heading>
         <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"3rem"} as="b">
               CNPJ:
             </Text>
             <Text>{(person as LegalEntity)?.cnpj}</Text>
           </HStack>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"3rem"} as="b">
               IM:
             </Text>
             <Text>{(person as LegalEntity)?.im}</Text>
           </HStack>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"3rem"} as="b">
               IE:
             </Text>
             <Text>{(person as LegalEntity)?.ie}</Text>
@@ -179,37 +205,37 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
 
   function addressData() {
     return (
-      <Box>
+      <Box overflow={"auto"} maxW={"100%"}>
         <Heading mb={2} size={"md"}>
           Endereço
         </Heading>
         <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"7rem"} as="b">
               Rua:
             </Text>
             <Text>{person?.location.address}</Text>
           </HStack>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"7rem"} as="b">
               Número:
             </Text>
             <Text>{person?.location?.number}</Text>
           </HStack>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"7rem"} as="b">
               Complemento:
             </Text>
             <Text>{person?.location?.complement}</Text>
           </HStack>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"7rem"} as="b">
               Cidade:
             </Text>
             <Text>{person?.location?.city}</Text>
           </HStack>
           <HStack>
-            <Text minW={"8rem"} as="b">
+            <Text minW={"7rem"} as="b">
               Estado:
             </Text>
             <Text>{person?.location?.state}</Text>
@@ -221,14 +247,12 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
 
   function observationData() {
     return (
-      <Box>
+      <Box overflow={"auto"} maxW={"100%"}>
         <Heading mb={2} size={"md"}>
           Observações
         </Heading>
         <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
-          <HStack>
-            <Text>{person?.observation}</Text>
-          </HStack>
+          <Text minH={"3rem"}>{person?.observation}</Text>
         </VStack>
       </Box>
     );
@@ -255,8 +279,10 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
       </Stack>
     );
   }
+
   return (
     <>
+      <PersonEditDrawer ref={drawerEditRef} />
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -272,7 +298,7 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
             {person?.name}
           </DrawerHeader>
 
-          <DrawerBody>
+          <DrawerBody px={{ base: "0", md: "4" }}>
             <Tabs>
               <TabList color={"drawer.text"}>
                 <Tab as="b">Dados</Tab>
@@ -296,7 +322,10 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
             <Button variant="outline" mr={3} onClick={onClose}>
               Fechar
             </Button>
-            <Button colorScheme="blue" onClick={handleEdit}>
+            <Button
+              colorScheme="blue"
+              onClick={() => person && handleEdit(person)}
+            >
               Editar
             </Button>
           </DrawerFooter>

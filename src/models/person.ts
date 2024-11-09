@@ -29,13 +29,13 @@ export interface LegalEntity extends AbstractPerson {
   /** Regime tributário (Ex: 1 para Simples Nacional, 2 para Regime Normal) */
   taxRegime?: string; // (tag: <CRT>)
   suframa?: string; // SUFRAMA
-  icmsTaxpayer?: boolean; // Contribuinte ICMS
+  icmsTaxPayer?: boolean; // Contribuinte ICMS
 }
 
 export interface NaturalPerson extends AbstractPerson {
   cpf: string; // (tag: <CPF>)
   rg?: string;
-  birthday?: string;
+  birthdate?: string;
   fatherName?: string;
   motherName?: string;
   crc?: string; // Conselho Regional de Contabilidade
