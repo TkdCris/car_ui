@@ -12,11 +12,10 @@ export const DrawerInput = ({
   type,
   placeholder,
   register,
-  labelMinW = "8rem",
 }: DrawerInputProps) => {
   return (
     <HStack alignItems={"flex-end"}>
-      <FormLabel minW={labelMinW} whiteSpace={"nowrap"} flexShrink={0}>
+      <FormLabel whiteSpace={"nowrap"} flexShrink={0}>
         {title}:
       </FormLabel>
       <Input type={type} h={8} placeholder={placeholder} {...register} />

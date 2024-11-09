@@ -71,9 +71,6 @@ export const NaturalPersonEditForm = forwardRef<
     personToEdit?.observation || ""
   );
 
-  console.log("\nNaturalPersonEditForm personToEdit: ", personToEdit);
-  console.log("\nNaturalPersonEditForm observation: ", observation);
-
   const onSubmit: SubmitHandler<NaturalPersonRegisterSchema> = async (data) => {
     setHeaderToken();
 

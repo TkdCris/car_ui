@@ -352,8 +352,6 @@ export const LegalEntityEditForm = forwardRef<
     );
   }
 
-  console.log("\n\nEdit form personToEdit: ", personToEdit);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex flexDirection={"column"} gap="2" shadow="lg">
