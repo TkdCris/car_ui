@@ -14,6 +14,7 @@ import {
   Stack,
   Switch,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 
 import {
@@ -65,6 +66,8 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
     const [isIcmsTaxPayer, setIsIcmsTaxPayer] = useState(false);
     const [observation, setObservation] = useState("");
 
+    const toast = useToast();
+
     const onSubmit: SubmitHandler<LegalEntityRegisterSchema> = async (data) => {
       setHeaderToken();
       data.icmsTaxPayer = isIcmsTaxPayer;
@@ -72,6 +75,13 @@ export const LegalEntityRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
       try {
         await api.post("/persons", data);
+        toast({
+          title: "Pessoa Jurídica",
+          description: "Cadastro realizado com sucesso!.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       } catch (error) {
         console.error(error);
       }

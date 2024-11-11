@@ -12,6 +12,7 @@ import {
   Heading,
   Stack,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 
 import { DrawerInput } from "@/compoments";
@@ -60,6 +61,7 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
       },
     });
 
+    const toast = useToast();
     const [observation, setObservation] = useState("");
 
     const onSubmit: SubmitHandler<NaturalPersonRegisterSchema> = async (
@@ -70,6 +72,13 @@ export const NaturalPersonRegisterForm = forwardRef<RegisterFormHandle, {}>(
 
       try {
         await api.post("/persons", data);
+        toast({
+          title: "Pessoa Física",
+          description: "Cadastro realizado com sucesso!.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       } catch (error) {
         console.error(error);
       }

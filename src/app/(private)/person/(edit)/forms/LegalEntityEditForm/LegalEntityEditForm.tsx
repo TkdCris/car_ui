@@ -14,6 +14,7 @@ import {
   Stack,
   Switch,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 
 import { api, setHeaderToken } from "@/services/axios/axios";
@@ -76,6 +77,8 @@ export const LegalEntityEditForm = forwardRef<
     personToEdit?.observation || ""
   );
 
+  const toast = useToast();
+
   const onSubmit: SubmitHandler<LegalEntityRegisterSchema> = async (data) => {
     setHeaderToken();
     data.icmsTaxPayer = isIcmsTaxPayer;
@@ -83,6 +86,13 @@ export const LegalEntityEditForm = forwardRef<
 
     try {
       await api.put(`/persons/${personToEdit?.id}`, data);
+      toast({
+        title: "Pessoa Jurídica",
+        description: "Atualizada com sucesso!.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error(error);
     }

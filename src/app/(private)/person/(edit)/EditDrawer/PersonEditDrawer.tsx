@@ -29,6 +29,7 @@ export const PersonEditDrawer = forwardRef((props, ref) => {
     if (formRef.current) {
       formRef.current.requestSubmit();
     }
+    onClose();
   };
 
   useImperativeHandle(ref, () => ({

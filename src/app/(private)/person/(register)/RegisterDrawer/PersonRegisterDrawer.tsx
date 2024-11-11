@@ -27,6 +27,7 @@ export function PersonRegisterDrawer() {
     if (formRef.current) {
       formRef.current.requestSubmit();
     }
+    onClose();
   };
 
   return (

@@ -12,6 +12,7 @@ import {
   Heading,
   Stack,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 
 import { DrawerInput } from "@/compoments";
@@ -71,6 +72,8 @@ export const NaturalPersonEditForm = forwardRef<
     personToEdit?.observation || ""
   );
 
+  const toast = useToast();
+
   const onSubmit: SubmitHandler<NaturalPersonRegisterSchema> = async (data) => {
     setHeaderToken();
 
@@ -78,6 +81,13 @@ export const NaturalPersonEditForm = forwardRef<
 
     try {
       await api.put(`/persons/${personToEdit?.id}`, data);
+      toast({
+        title: "Pessoa Física",
+        description: "Atualizada com sucesso!.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error(error);
     }
