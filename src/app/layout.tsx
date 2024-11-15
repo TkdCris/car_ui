@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { ChakraProvider, QueryClientProviders } from "@/providers";
+import { QueryClientProviders } from "@/providers";
+import { Provider } from "@/components/ui/provider";
 import { fonts } from "./fonts";
 import "@/global.css";
 
@@ -18,7 +19,7 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${fonts.rubik.variable}`}>
       <body>
         <QueryClientProviders>
-          <ChakraProvider>{children}</ChakraProvider>
+          <Provider>{children}</Provider>
         </QueryClientProviders>
       </body>
     </html>

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 
 import { redirect } from "next/navigation";
 
-import { LeftMenu, MainHeader } from "@/compoments";
+import { LeftMenu, MainHeader } from "@/components";
 
 export default function Layout({
   children,
@@ -40,16 +40,10 @@ export default function Layout({
 
   return (
     <Flex direction="column" height="100vh">
-      <Box as="header" bg="header.bg">
-        <MainHeader />
-      </Box>
-      <Box as="main" flex="1" bg="app_bg">
+      <MainHeader />
+      <Box as="main" flex="1" bg="app.bg">
         <HStack height="100%" gap={0}>
-          <Box
-            transition="width 0.3s ease-in-out"
-            height="100%"
-            width={isMenuText ? 240 : 12}
-          >
+          <Box height="100%">
             <LeftMenu toogleMenu={toogleMenu} isMenuText={isMenuText} />
           </Box>
           <Box

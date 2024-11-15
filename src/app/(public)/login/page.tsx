@@ -1,22 +1,15 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Center,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Center, Fieldset, Input, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { authSchema, type AuthSchema } from "@/schemas";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
+import axios from "axios";
 import { setCookie } from "@/utils/handleCookies";
+import { Field } from "@/components/ui/field";
+import { authSchema, type AuthSchema } from "@/schemas";
 
 export default function Login() {
   const { register, handleSubmit } = useForm<AuthSchema>({
@@ -66,32 +59,33 @@ export default function Login() {
         color={"login.text"}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Center>
-            <FormLabel display={"flex"} pb={6} fontSize={30}>
-              Controle Auto Revenda
-            </FormLabel>
-          </Center>
-          <FormControl>
-            <FormLabel>Email</FormLabel>
-            <Input
-              {...register("email")}
-              placeholder="Digite seu email"
-              borderColor={"login.text"}
-            />
-          </FormControl>
-          <FormControl mt={4}>
-            <FormLabel>Senha</FormLabel>
-            <Input
-              {...register("password")}
-              placeholder="Digite sua senha"
-              borderColor={"login.text"}
-            />
-          </FormControl>
-          <FormControl>
+          <Fieldset.Root size="lg" maxW="md">
+            <Center>
+              <Fieldset.Legend display={"flex"} pb={6} fontSize={30}>
+                Controle Auto Revenda
+              </Fieldset.Legend>
+            </Center>
+            <Fieldset.Content>
+              <Field label="Email">
+                <Input
+                  {...register("email")}
+                  placeholder="Digite seu email"
+                  borderColor={"login.text"}
+                />
+              </Field>
+              <Field label="Senha">
+                <Input
+                  {...register("password")}
+                  placeholder="Digite sua senha"
+                  borderColor={"login.text"}
+                />
+              </Field>
+            </Fieldset.Content>
             <Button type="submit" mt={8} colorScheme="blue" w="100%">
               Login
             </Button>
-          </FormControl>
+          </Fieldset.Root>
+
           {isError && (
             <Text mt={4} color={"error"}>
               Email e/ou senha inválidos!

@@ -3,7 +3,7 @@
 import { Box, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { ContentHeader, SearchComponent, TableComponent } from "@/compoments";
+import { ContentHeader, SearchComponent, TableComponent } from "@/components";
 import { PersonRegisterDrawer } from "./(register)";
 import { PersonToTableList } from "@/models";
 
@@ -28,7 +28,7 @@ export default function PersonPage() {
       <ContentHeader leftTitle="Pessoas">
         <PersonRegisterDrawer />
       </ContentHeader>
-      <VStack px={8}>
+      <VStack px={4}>
         <SearchComponent<PersonToTableList[]>
           getValues={handleGetValues}
           arrayOptions={[

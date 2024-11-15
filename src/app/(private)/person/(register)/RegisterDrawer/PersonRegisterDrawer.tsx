@@ -1,25 +1,23 @@
+import React, { useState } from "react";
+import { Tabs } from "@chakra-ui/react";
+
 import {
-  Button,
-  Drawer,
+  DrawerActionTrigger,
+  DrawerBackdrop,
   DrawerBody,
-  DrawerCloseButton,
+  DrawerCloseTrigger,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  useDisclosure,
-} from "@chakra-ui/react";
-import React from "react";
+  DrawerRoot,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 import { LegalEntityRegisterForm, NaturalPersonRegisterForm } from "../forms";
 
 export function PersonRegisterDrawer() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef(null);
+  const [open, setOpen] = useState(false);
 
   const formRef = React.useRef<HTMLFormElement>(null);
 
@@ -27,58 +25,54 @@ export function PersonRegisterDrawer() {
     if (formRef.current) {
       formRef.current.requestSubmit();
     }
-    onClose();
+    setOpen(false);
   };
 
   return (
-    <>
-      <Button h={8} w={20} ref={btnRef} colorScheme="blue" onClick={onOpen}>
-        Novo
-      </Button>
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-        size="lg"
-      >
-        <DrawerOverlay />
-
-        <DrawerContent bg={"drawer.bg"}>
-          <DrawerCloseButton />
-          <DrawerHeader fontWeight={"bold"}>Cadastrar</DrawerHeader>
-
-          <DrawerBody>
-            <Tabs isLazy variant="enclosed">
-              <TabList>
-                <Tab fontSize={"lg"} fontWeight={"semibold"}>
-                  Pessoa Física
-                </Tab>
-                <Tab fontSize={"lg"} fontWeight={"semibold"}>
-                  Pessoa Jurídica
-                </Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel px={0}>
-                  <NaturalPersonRegisterForm ref={formRef} />
-                </TabPanel>
-                <TabPanel px={0}>
-                  <LegalEntityRegisterForm ref={formRef} />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </DrawerBody>
-
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue" onClick={handleSave}>
-              Save
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    </>
+    <DrawerRoot
+      open={open}
+      onOpenChange={(e) => setOpen(e.open)}
+      placement="end"
+      size="md"
+    >
+      <DrawerBackdrop />
+      <DrawerTrigger asChild>
+        <Button variant="subtle" size="xs" width={"5rem"} colorPalette={"blue"}>
+          Novo
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent pos={"absolute"}>
+        <DrawerHeader>
+          <DrawerTitle>Cadastrar</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody px={{ base: 2, md: 6 }}>
+          <Tabs.Root defaultValue="pf" variant="line" lazyMount>
+            <Tabs.List colorPalette="blue">
+              <Tabs.Trigger value="pf" fontSize={"lg"} fontWeight={"semibold"}>
+                Pessoa Física
+              </Tabs.Trigger>
+              <Tabs.Trigger value="pj" fontSize={"lg"} fontWeight={"semibold"}>
+                Pessoa Jurídica
+              </Tabs.Trigger>
+            </Tabs.List>
+            <Tabs.Content value="pf">
+              <NaturalPersonRegisterForm ref={formRef} />
+            </Tabs.Content>
+            <Tabs.Content value="pj">
+              <LegalEntityRegisterForm ref={formRef} />
+            </Tabs.Content>
+          </Tabs.Root>
+        </DrawerBody>
+        <DrawerFooter>
+          <DrawerActionTrigger asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerActionTrigger>
+          <Button variant={"solid"} colorPalette={"blue"} onClick={handleSave}>
+            Save
+          </Button>
+        </DrawerFooter>
+        <DrawerCloseTrigger />
+      </DrawerContent>
+    </DrawerRoot>
   );
 }
