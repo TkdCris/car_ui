@@ -12,17 +12,9 @@ export function ContentHeader({
   leftTitle,
   centerTitle,
   children,
-  ...rest
 }: ContentHeaderProps) {
   return (
-    <HStack
-      w="full"
-      h={10}
-      px={8}
-      bg="content.header"
-      color={"content.text"}
-      {...rest}
-    >
+    <HStack w="full" h={10} px={4} bg="content.header" color={"content.text"}>
       <HStack justifyContent={"space-between"} w={"full"}>
         <Box fontSize={"lg"} fontWeight={"semibold"}>
           {leftTitle}

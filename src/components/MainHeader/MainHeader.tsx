@@ -11,7 +11,7 @@ export function MainHeader() {
       justifyContent="space-between"
       py="2"
       px="8"
-      color="text"
+      color="header.text"
       bg="header.bg"
     >
       <LeftContent />

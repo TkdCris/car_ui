@@ -1,6 +1,6 @@
 "use client";
 
-import { GiExitDoor } from "react-icons/gi";
+import { GiExitDoor, GiHamburgerMenu } from "react-icons/gi";
 import { ImPrinter } from "react-icons/im";
 import { RiPagesLine } from "react-icons/ri";
 import {
@@ -8,14 +8,13 @@ import {
   BsFillCarFrontFill,
   BsFillPersonFill,
 } from "react-icons/bs";
-import { HamburgerIcon } from "@chakra-ui/icons";
-import { Box, Button, Flex, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { BtnMenu } from "../BtnMenu";
 import { deleteCookie } from "@/utils/handleCookies";
+import { BtnMenu } from "../BtnMenu";
 
 type LeftMenuProps = {
   toogleMenu: () => void;
@@ -39,20 +38,21 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
 
   return (
     <VStack
-      w="full"
+      transition="width 0.3s ease-in-out"
+      w={isMenuText ? 200 : 12}
       h="full"
       justifyContent="space-between"
       color="text"
-      bg="header.bg"
+      bg="menu.bg"
       alignItems="start"
       borderTop={1}
       borderStyle="solid"
-      borderColor="app_bg"
+      borderColor="app.bg"
     >
-      <VStack width="100%" alignItems="start" pt={4}>
+      <VStack width="100%" pt={4}>
         <BtnMenu
           onClick={toogleMenu}
-          icon={<HamburgerIcon />}
+          icon={<GiHamburgerMenu />}
           isText={isMenuText}
         >
           <Text>Menu</Text>
@@ -120,13 +120,14 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
         </Box>
       </VStack>
 
-      <Flex w={"100%"} borderTop={1} borderStyle="solid" borderColor="app_bg">
-        <Flex h={8} pl={4} py={2} alignItems="center">
-          <Button color="text" variant="link" gap={4} onClick={handleSignOut}>
-            <GiExitDoor />
-            <Text>Sair</Text>
-          </Button>
-        </Flex>
+      <Flex w={"100%"} borderTop={1} borderStyle="solid" borderColor="app.bg">
+        <BtnMenu
+          onClick={handleSignOut}
+          icon={<GiExitDoor />}
+          isText={isMenuText}
+        >
+          <Text>Sair</Text>
+        </BtnMenu>
       </Flex>
     </VStack>
   );

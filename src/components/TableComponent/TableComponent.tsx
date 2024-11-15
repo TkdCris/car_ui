@@ -1,15 +1,6 @@
+import { Box, Table } from "@chakra-ui/react";
+
 import { PersonInfoDrawer } from "@/app/(private)/person/(info)";
-import {
-  Box,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Tfoot,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
 import React from "react";
 
 interface TableComponentProps<T extends { [key: string]: any }> {
@@ -61,27 +52,29 @@ export function TableComponent<T extends { [key: string]: any }>({
   return (
     <>
       <PersonInfoDrawer ref={drawerInfRef} />
-      <TableContainer
-        w={"full"}
-        h={"full"}
-        mx={4}
-        p={2}
-        bg={"table.body"}
-        shadow={"md"}
-      >
-        <Table size="sm">
-          <Thead bg={"table.header"} shadow={"md"}>
-            <Tr>
-              <Th key={"#"}>{"#"}</Th>
+      <Box pt={0} w={"full"} mb={4} mx={4} overflowX="auto">
+        <Table.Root
+          w={"100%"}
+          h={"full"}
+          px={4}
+          bg={"table.body"}
+          shadow={"md"}
+          size="sm"
+          whiteSpace={"nowrap"}
+          interactive
+        >
+          <Table.Header shadow={"md"}>
+            <Table.Row bg={"table.header"} h={"2rem"}>
+              <Table.ColumnHeader key={"#"}>{"#"}</Table.ColumnHeader>
               {titleList.map((title, index) => (
-                <Th key={index}>{title}</Th>
+                <Table.ColumnHeader key={index}>{title}</Table.ColumnHeader>
               ))}
-            </Tr>
-          </Thead>
-          <Tbody>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
             {rows &&
               rowsObjectWithOutObjectOnValues.map((row, irowIndex) => (
-                <Tr
+                <Table.Row
                   _hover={{ bg: "drawer.content" }}
                   transition="0.3s ease-in-out"
                   key={irowIndex}
@@ -91,8 +84,7 @@ export function TableComponent<T extends { [key: string]: any }>({
                       value = irowIndex + 1;
                     }
                     return (
-                      <Td
-                        _hover={{ fontSize: "blue" }}
+                      <Table.Cell
                         key={index}
                         onClick={() =>
                           handleOpenInfoDrawer(getRowById(row.id) as T)
@@ -103,22 +95,24 @@ export function TableComponent<T extends { [key: string]: any }>({
                             ? "Sim"
                             : "Não"
                           : value}
-                      </Td>
+                      </Table.Cell>
                     );
                   })}
-                </Tr>
+                </Table.Row>
               ))}
-          </Tbody>
+          </Table.Body>
           {footer && (
-            <Tfoot>
-              <Tr>
+            <Table.Footer>
+              <Table.Row>
                 {titles &&
-                  titles.map((title, index) => <Th key={index}>{title}</Th>)}
-              </Tr>
-            </Tfoot>
+                  titles.map((title, index) => (
+                    <Table.Cell key={index}>{title}</Table.Cell>
+                  ))}
+              </Table.Row>
+            </Table.Footer>
           )}
-        </Table>
-      </TableContainer>
+        </Table.Root>
+      </Box>
     </>
   );
 }

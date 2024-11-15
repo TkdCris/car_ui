@@ -3,16 +3,22 @@
 import {
   Box,
   Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
+  createListCollection,
   HStack,
   Input,
-  Select,
 } from "@chakra-ui/react";
-import { api, setHeaderToken } from "@/services/axios/axios";
 import { useForm } from "react-hook-form";
 
+import { api, setHeaderToken } from "@/services/axios/axios";
+
+import {
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "../ui/select";
 import { SearchSchema } from "@/schemas";
 
 type SearchComponentProps<T> = {
@@ -50,6 +56,10 @@ export function SearchComponent<T>({
     }
   };
 
+  const frameworks = createListCollection({
+    items: [...arrayOptions],
+  });
+
   return (
     <Box w={"full"}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -60,35 +70,24 @@ export function SearchComponent<T>({
           flexDirection={{ base: "column", sm: "row" }}
           color={"content.text"}
         >
-          <FormControl flex={1}>
-            <FormLabel whiteSpace="nowrap" fontSize={"sm"}>
-              Pesquisar por
-            </FormLabel>
-            <Select
-              placeholder="Selecione..."
-              variant="outline"
-              bg={"input.bg"}
-              {...register("key")}
-            >
+          <SelectRoot collection={frameworks} flex={1}>
+            <SelectLabel truncate>Pesquiser por</SelectLabel>
+            <SelectTrigger minW={"8rem"}>
+              <SelectValueText placeholder="Selecione..." />
+            </SelectTrigger>
+            <SelectContent>
               {arrayOptions.map((option) => (
-                <option key={option.value} value={option.value}>
+                <SelectItem key={option.value} item={option.value}>
                   {option.label}
-                </option>
+                </SelectItem>
               ))}
-            </Select>
-          </FormControl>
-          <FormControl flex={2} isInvalid={!!errors.value}>
-            <Box position="relative">
-              <Input
-                placeholder={"Digite o que deseja pesquisar"}
-                bg={"input.bg"}
-                {...register("value")}
-              />
-              <FormErrorMessage position="absolute" top="100%" left="0">
-                {errors.value?.message}
-              </FormErrorMessage>
-            </Box>
-          </FormControl>
+            </SelectContent>
+          </SelectRoot>
+          <Input
+            placeholder={"Digite o que deseja pesquisar"}
+            bg={"input.bg"}
+            {...register("value")}
+          />
           <Button variant={"outline"} type="submit" color="content.text">
             Pesquisar
           </Button>

@@ -1,32 +1,33 @@
 import {
-  Box,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
+  Card,
   Heading,
   HStack,
   Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
   Text,
-  useDisclosure,
+  Textarea,
   VStack,
 } from "@chakra-ui/react";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 
+import {
+  DrawerActionTrigger,
+  DrawerBackdrop,
+  DrawerBody,
+  DrawerCloseTrigger,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerRoot,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Client, LegalEntity, NaturalPerson } from "@/models";
 import { PersonEditDrawer } from "../../(edit)";
 
 export const PersonInfoDrawer = forwardRef((props, ref) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [open, setOpen] = useState(false);
   const [person, setPerson] = useState<Client>();
 
   const btnRef = React.useRef(null);
@@ -35,232 +36,246 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     handleOpenDrawer: (data: any) => {
       setPerson(data);
-      onOpen();
+      setOpen((prev) => !prev);
     },
   }));
 
   const handleEdit = (data: Client) => {
-    onClose();
     if (drawerEditRef.current) {
       drawerEditRef.current.handleOpenEditDrawer(data);
     }
+    setOpen(false);
   };
 
   function personalData() {
     return (
-      <Box overflow={"auto"} maxW={"100%"}>
-        <Heading mb={2} size={"md"}>
-          Dados pessoais
-        </Heading>
-        <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
-          <HStack>
-            <Text minW={"6rem"} as="b">
-              Nome:
-            </Text>
-            <Text>{person?.name}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"6rem"} as="b">
-              Apelido:
-            </Text>
-            <Text>{person?.nickname}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"6rem"} as="b">
-              Email:
-            </Text>
-            <Text>{person?.email}</Text>
-          </HStack>
+      <Card.Root overflow="auto">
+        <Card.Header>
+          <Heading size={"md"}>Dados pessoais</Heading>
+        </Card.Header>
+        <Card.Body pt={2} mr={4}>
+          <VStack align={"start"} bg={"drawer.content"} gap={1} pr={2}>
+            <HStack>
+              <Text minW={"6rem"} as="b">
+                Nome:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.name}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"6rem"} as="b">
+                Apelido:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.nickname}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"6rem"} as="b">
+                Email:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.email}</Text>
+            </HStack>
 
-          <HStack>
-            <Text minW={"6rem"} as="b">
-              Celular:
-            </Text>
-            <Text>{person?.cellphone}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"6rem"} as="b">
-              Tel fixo:
-            </Text>
-            <Text>{person?.phone}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"6rem"} as="b">
-              Nascimento:
-            </Text>
-            <Text>{(person as NaturalPerson)?.birthdate}</Text>
-          </HStack>
-        </VStack>
-      </Box>
+            <HStack>
+              <Text minW={"6rem"} as="b">
+                Celular:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.cellphone}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"6rem"} as="b">
+                Tel fixo:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.phone}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"6rem"} as="b">
+                Nascimento:
+              </Text>
+              <Text whiteSpace="nowrap">
+                {(person as NaturalPerson)?.birthdate}
+              </Text>
+            </HStack>
+          </VStack>
+        </Card.Body>
+      </Card.Root>
     );
   }
 
   function companyData() {
     return (
-      <Box overflow={"auto"} maxW={"100%"}>
-        <Heading mb={2} size={"md"}>
-          Dados da Empresa
-        </Heading>
-        <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
-          <HStack>
-            <Text minW={"8rem"} as="b">
-              Nome:
-            </Text>
-            <Text>{person?.name}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"8rem"} as="b">
-              Nome Fantasia:
-            </Text>
-            <Text>{person?.nickname}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"8rem"} as="b">
-              Email:
-            </Text>
-            <Text>{person?.email}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"8rem"} as="b">
-              Celular:
-            </Text>
-            <Text>{person?.cellphone}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"8rem"} as="b">
-              Telefone:
-            </Text>
-            <Text>{person?.phone}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"8rem"} as="b">
-              Contribuinte ICMS:
-            </Text>
-            <Text>{(person as LegalEntity)?.icmsTaxPayer ? "Sim" : "Não"}</Text>
-          </HStack>
-        </VStack>
-      </Box>
+      <Card.Root overflow={"auto"}>
+        <Card.Header>
+          <Heading size={"md"}>Dados da Empresa</Heading>
+        </Card.Header>
+        <Card.Body pt={2}>
+          <VStack align={"start"} bg={"drawer.content"} gap={1}>
+            <HStack>
+              <Text minW={"8rem"} as="b">
+                Nome:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.name}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"8rem"} as="b">
+                Nome Fantasia:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.nickname}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"8rem"} as="b">
+                Email:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.email}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"8rem"} as="b">
+                Celular:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.cellphone}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"8rem"} as="b">
+                Telefone:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.phone}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"8rem"} as="b">
+                Contribuinte ICMS:
+              </Text>
+              <Text>
+                {(person as LegalEntity)?.icmsTaxPayer ? "Sim" : "Não"}
+              </Text>
+            </HStack>
+          </VStack>
+        </Card.Body>
+      </Card.Root>
     );
   }
 
   function naturalPersonDocumentationData() {
     return (
-      <Box overflow={"auto"} maxW={"100%"}>
-        <Heading mb={2} size={"md"}>
-          Documentação
-        </Heading>
-        <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
-          <HStack>
-            <Text minW={"3rem"} as="b">
-              CPF:
-            </Text>
-            <Text>{(person as NaturalPerson)?.cpf}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"3rem"} as="b">
-              RG:
-            </Text>
-            <Text>{(person as NaturalPerson)?.rg}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"3rem"} as="b">
-              CRC:
-            </Text>
-            <Text>{(person as NaturalPerson)?.crc}</Text>
-          </HStack>
-        </VStack>
-      </Box>
+      <Card.Root overflow="auto">
+        <Card.Header>
+          <Heading size={"md"}>Documentação</Heading>
+        </Card.Header>
+        <Card.Body pt={2}>
+          <VStack align={"start"} bg={"drawer.content"} gap={1}>
+            <HStack>
+              <Text minW={"3rem"} as="b">
+                CPF:
+              </Text>
+              <Text whiteSpace="nowrap">{(person as NaturalPerson)?.cpf}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"3rem"} as="b">
+                RG:
+              </Text>
+              <Text whiteSpace="nowrap">{(person as NaturalPerson)?.rg}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"3rem"} as="b">
+                CRC:
+              </Text>
+              <Text whiteSpace="nowrap">{(person as NaturalPerson)?.crc}</Text>
+            </HStack>
+          </VStack>
+        </Card.Body>
+      </Card.Root>
     );
   }
 
   function legalEntityDocumentationData() {
     return (
-      <Box overflow={"auto"} maxW={"100%"}>
-        <Heading mb={2} size={"md"}>
-          Documentação
-        </Heading>
-        <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
-          <HStack>
-            <Text minW={"3rem"} as="b">
-              CNPJ:
-            </Text>
-            <Text>{(person as LegalEntity)?.cnpj}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"3rem"} as="b">
-              IM:
-            </Text>
-            <Text>{(person as LegalEntity)?.im}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"3rem"} as="b">
-              IE:
-            </Text>
-            <Text>{(person as LegalEntity)?.ie}</Text>
-          </HStack>
-        </VStack>
-      </Box>
+      <Card.Root overflow="auto">
+        <Card.Header>
+          <Heading size={"md"}>Documentação</Heading>
+        </Card.Header>
+        <Card.Body pt={2}>
+          <VStack align={"start"} bg={"drawer.content"} gap={1}>
+            <HStack>
+              <Text minW={"3rem"} as="b">
+                CNPJ:
+              </Text>
+              <Text whiteSpace="nowrap">{(person as LegalEntity)?.cnpj}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"3rem"} as="b">
+                IM:
+              </Text>
+              <Text whiteSpace="nowrap">{(person as LegalEntity)?.im}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"3rem"} as="b">
+                IE:
+              </Text>
+              <Text whiteSpace="nowrap">{(person as LegalEntity)?.ie}</Text>
+            </HStack>
+          </VStack>
+        </Card.Body>
+      </Card.Root>
     );
   }
 
   function addressData() {
     return (
-      <Box overflow={"auto"} maxW={"100%"}>
-        <Heading mb={2} size={"md"}>
-          Endereço
-        </Heading>
-        <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
-          <HStack>
-            <Text minW={"7rem"} as="b">
-              Rua:
-            </Text>
-            <Text>{person?.location.address}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"7rem"} as="b">
-              Número:
-            </Text>
-            <Text>{person?.location?.number}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"7rem"} as="b">
-              Complemento:
-            </Text>
-            <Text>{person?.location?.complement}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"7rem"} as="b">
-              Cidade:
-            </Text>
-            <Text>{person?.location?.city}</Text>
-          </HStack>
-          <HStack>
-            <Text minW={"7rem"} as="b">
-              Estado:
-            </Text>
-            <Text>{person?.location?.state}</Text>
-          </HStack>
-        </VStack>
-      </Box>
+      <Card.Root overflow="auto">
+        <Card.Header>
+          <Heading size={"md"}>Endereço</Heading>
+        </Card.Header>
+        <Card.Body pt={2}>
+          <VStack align={"start"} bg={"drawer.content"} gap={1}>
+            <HStack>
+              <Text minW={"7rem"} as="b">
+                Rua:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.location.address}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"7rem"} as="b">
+                Número:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.location?.number}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"7rem"} as="b">
+                Complemento:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.location?.complement}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"7rem"} as="b">
+                Cidade:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.location?.city}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"7rem"} as="b">
+                Estado:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.location?.state}</Text>
+            </HStack>
+          </VStack>
+        </Card.Body>
+      </Card.Root>
     );
   }
 
   function observationData() {
     return (
-      <Box overflow={"auto"} maxW={"100%"}>
-        <Heading mb={2} size={"md"}>
-          Observações
-        </Heading>
-        <VStack align={"start"} p={2} bg={"drawer.content"} gap={1}>
-          <Text minH={"3rem"}>{person?.observation}</Text>
-        </VStack>
-      </Box>
+      <Card.Root>
+        <Card.Header>
+          <Heading size={"md"}>Observações</Heading>
+        </Card.Header>
+        <Card.Body pt={0}>
+          <Textarea value={person?.observation || ""} />
+        </Card.Body>
+      </Card.Root>
     );
   }
 
   function naturalPersonInfo() {
     return (
-      <Stack gap={4} color={"content.text"}>
+      <Stack color={"content.text"}>
         {personalData()}
         {naturalPersonDocumentationData()}
         {addressData()}
@@ -283,54 +298,58 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
   return (
     <>
       <PersonEditDrawer ref={drawerEditRef} />
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-        size="md"
-      >
-        <DrawerOverlay />
+      <DrawerRoot size={"md"} open={open} onOpenChange={(e) => setOpen(e.open)}>
+        <DrawerBackdrop />
+        <DrawerTrigger />
 
         <DrawerContent bg={"drawer.bg"} p={"none"} m={"none"}>
-          <DrawerCloseButton />
-          <DrawerHeader bg={"header.bg"} fontWeight={"bold"}>
-            {person?.name}
+          <DrawerHeader>
+            <DrawerTitle>{person?.name}</DrawerTitle>
           </DrawerHeader>
 
-          <DrawerBody px={{ base: "0", md: "4" }}>
-            <Tabs>
-              <TabList color={"drawer.text"}>
-                <Tab as="b">Dados</Tab>
-                <Tab as="b">Negócios efetuados</Tab>
-              </TabList>
+          <DrawerBody px={{ base: 2, md: 6 }}>
+            <Tabs.Root
+              defaultValue="dados"
+              variant="line"
+              colorScheme="blue"
+              lazyMount
+            >
+              <Tabs.List color={"drawer.text"} colorPalette="blue">
+                <Tabs.Trigger value={"dados"} as="b">
+                  Dados
+                </Tabs.Trigger>
+                <Tabs.Trigger value={"negocios"} as="b">
+                  Negócios efetuados
+                </Tabs.Trigger>
+              </Tabs.List>
 
-              <TabPanels>
-                <TabPanel>
-                  {person?.legalEntity
-                    ? legalEntityInfo()
-                    : naturalPersonInfo()}
-                </TabPanel>
-                <TabPanel>
-                  <p>Negócios</p>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
+              <Tabs.Content value="dados">
+                {person?.legalEntity ? legalEntityInfo() : naturalPersonInfo()}
+              </Tabs.Content>
+              <Tabs.Content value="negocios">
+                <p>Negócios</p>
+              </Tabs.Content>
+            </Tabs.Root>
           </DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Fechar
-            </Button>
+            <DrawerActionTrigger asChild>
+              <Button variant="outline" mr={3} onClick={() => setOpen(false)}>
+                Fechar
+              </Button>
+            </DrawerActionTrigger>
             <Button
               colorScheme="blue"
               onClick={() => person && handleEdit(person)}
+              colorPalette="cyan"
             >
               Editar
             </Button>
           </DrawerFooter>
+
+          <DrawerCloseTrigger />
         </DrawerContent>
-      </Drawer>
+      </DrawerRoot>
     </>
   );
 });

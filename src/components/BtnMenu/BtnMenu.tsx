@@ -1,5 +1,6 @@
-import { Box, Button, Collapse, Flex } from "@chakra-ui/react";
 import React from "react";
+import { Button } from "../ui/button";
+import { Flex, Icon, Text } from "@chakra-ui/react";
 
 interface BtnMenuProps {
   children: React.ReactNode;
@@ -18,10 +19,8 @@ export function BtnMenu({
 }: BtnMenuProps) {
   return (
     <Button
-      variant={"unstyled"}
+      variant={"ghost"}
       h={8}
-      pl={4}
-      pr={{ base: 4, md: 8 }}
       cursor="pointer"
       _hover={{
         transition: "background-color 0.2s",
@@ -31,16 +30,16 @@ export function BtnMenu({
       rounded={0}
       borderRight={isSelected ? 4 : 0}
       borderStyle={"solid"}
-      borderColor="menu_detail"
+      borderRightColor="menu.border_detail"
       bg={isSelected ? "rgba(255, 255, 255, 0.1)" : ""}
       onClick={onClick}
       transition="0.3s ease-in-out"
+      justifyContent={"start"}
+      color="menu.text"
     >
-      <Flex alignItems="center" gap={4}>
-        <Box>{icon}</Box>
-        <Collapse in={isText} animateOpacity>
-          {children}
-        </Collapse>
+      <Flex alignItems={"center"} gap={4}>
+        <Icon>{icon}</Icon>
+        <Text fontWeight={"semibold"}>{isText && children}</Text>
       </Flex>
     </Button>
   );

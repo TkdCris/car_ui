@@ -1,15 +1,15 @@
+import { Button } from "@chakra-ui/react";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
+
 import {
-  Button,
-  Drawer,
+  DrawerBackdrop,
   DrawerBody,
-  DrawerCloseButton,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+  DrawerRoot,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 import { LegalEntityEditForm, NaturalPersonEditForm } from "../forms";
 import {
@@ -19,42 +19,40 @@ import {
 import { Client } from "@/models";
 
 export const PersonEditDrawer = forwardRef((props, ref) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [open, setOpen] = useState(false);
   const [person, setPerson] = useState<Client>();
 
-  const btnRef = React.useRef(null);
   const formRef = React.useRef<HTMLFormElement>(null);
 
   const handleSave = () => {
     if (formRef.current) {
       formRef.current.requestSubmit();
     }
-    onClose();
+    setOpen(false);
   };
 
   useImperativeHandle(ref, () => ({
     handleOpenEditDrawer: (data: any) => {
       setPerson(data);
-      onOpen();
+      setOpen(true);
     },
   }));
 
   return (
     <>
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-        size="lg"
+      <DrawerRoot
+        open={open}
+        onOpenChange={(e) => setOpen(e.open)}
+        placement="end"
+        size="md"
       >
-        <DrawerOverlay />
+        <DrawerBackdrop />
+        <DrawerTrigger />
 
         <DrawerContent bg={"drawer.bg"}>
-          <DrawerCloseButton />
           <DrawerHeader fontWeight={"bold"}>Editar</DrawerHeader>
 
-          <DrawerBody>
+          <DrawerBody px={{ base: 2, md: 6 }}>
             {person?.legalEntity ? (
               <LegalEntityEditForm
                 ref={formRef}
@@ -69,15 +67,15 @@ export const PersonEditDrawer = forwardRef((props, ref) => {
           </DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
+            <Button variant="outline" mr={3} onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button colorScheme="blue" onClick={handleSave}>
+            <Button colorPalette="blue" onClick={handleSave}>
               Save
             </Button>
           </DrawerFooter>
         </DrawerContent>
-      </Drawer>
+      </DrawerRoot>
     </>
   );
 });
