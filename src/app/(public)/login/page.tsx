@@ -7,15 +7,15 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import axios from "axios";
-import { setCookie } from "@/utils/handleCookies";
 import { Field } from "@/components/ui/field";
 import { authSchema, type AuthSchema } from "@/schemas";
+import { setCookie } from "@/utils/handleCookies";
 
 export default function Login() {
   const { register, handleSubmit } = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
@@ -66,10 +66,10 @@ export default function Login() {
               </Fieldset.Legend>
             </Center>
             <Fieldset.Content>
-              <Field label="Email">
+              <Field label="Nome de usuário">
                 <Input
-                  {...register("email")}
-                  placeholder="Digite seu email"
+                  {...register("username")}
+                  placeholder="Digite seu nome de usuário"
                   borderColor={"login.text"}
                 />
               </Field>

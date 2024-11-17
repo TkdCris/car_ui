@@ -12,6 +12,7 @@ const customConfig = defineConfig({
           // ...
           950: { value: "#001a33" },
         },
+        error: {value: "red"}
       },
     },
     semanticTokens: {
