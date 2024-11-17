@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 
 import { LeftMenu, MainHeader } from "@/components";
+import { cookies } from "next/headers";
+import { getCookie } from "@/utils/handleCookies";
 
 export default function Layout({
   children,
@@ -35,7 +37,9 @@ export default function Layout({
 
   useEffect(() => {
     const sessionToken = sessionStorage.getItem("token");
+    const cookieToken = getCookie("token");
     if (!sessionToken) redirect("/login");
+    if (!cookieToken) redirect("/login");
   }, []);
 
   return (
