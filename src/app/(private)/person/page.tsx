@@ -25,7 +25,7 @@ export default function PersonPage() {
 
   return (
     <Box w={"full"} h={"full"}>
-      <ContentHeader leftTitle="Pessoas">
+      <ContentHeader leftTitle="Clientes">
         <PersonRegisterDrawer />
       </ContentHeader>
       <VStack px={4}>

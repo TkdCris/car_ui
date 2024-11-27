@@ -25,7 +25,6 @@ export function PersonRegisterDrawer() {
     if (formRef.current) {
       formRef.current.requestSubmit();
     }
-    setOpen(false);
   };
 
   return (
@@ -56,7 +55,7 @@ export function PersonRegisterDrawer() {
               </Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value="pf">
-              <NaturalPersonRegisterForm ref={formRef} />
+              <NaturalPersonRegisterForm ref={formRef} setOpen={setOpen} />
             </Tabs.Content>
             <Tabs.Content value="pj">
               <LegalEntityRegisterForm ref={formRef} />

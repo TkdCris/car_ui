@@ -14,7 +14,9 @@ const basicPersonSchema = z.object({
   idCompany: z.string(),
   name: z.string().min(1, { message: "Informe o nome!" }),
   nickname: z.string(),
-  email: z.string(),
+  email: z.string().optional().refine((email) => !email || z.string().email().safeParse(email).success,
+  { message: "Email inválido!" }
+),
   phone: z.string(),
   cellphone: z.string(),
   notary: z.string(),
