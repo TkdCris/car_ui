@@ -1,23 +1,24 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Card,
-  CardHeader,
-  Field,
-  Flex,
-  Heading,
-  Textarea,
-} from "@chakra-ui/react";
+import { Card, CardHeader, Flex, Heading, Textarea } from "@chakra-ui/react";
+import { useHookFormMask } from "use-mask-input";
 
 import { api, setHeaderToken } from "@/services/axios/axios";
-import { toaster } from "@/components/ui/toaster";
-import { DrawerInput } from "@/components";
 import {
   type NaturalPersonRegisterSchema,
   naturalPersonRegisterSchema,
 } from "@/schemas";
 import { NaturalPerson } from "@/models";
+import {
+  birthdateFormat,
+  cellphoneFormat,
+  cpfFormat,
+  numberToMaskFormat,
+  phoneFormat,
+} from "@/utils/masks";
+import { toaster } from "@/components/ui/toaster";
+import { DrawerInput } from "@/components";
 
 type RegisterFormHandle = {
   requestSubmit: () => void;
@@ -25,12 +26,13 @@ type RegisterFormHandle = {
 
 type NaturalPersonEditFormProps = {
   personToEdit?: NaturalPerson;
+  setOpen?: (valor: boolean) => void;
 };
 
 export const NaturalPersonEditForm = forwardRef<
   RegisterFormHandle,
   NaturalPersonEditFormProps
->(({ personToEdit }, ref) => {
+>(({ personToEdit, setOpen }, ref) => {
   const {
     register,
     handleSubmit,
@@ -43,8 +45,11 @@ export const NaturalPersonEditForm = forwardRef<
       name: personToEdit?.name || "",
       nickname: personToEdit?.nickname || "",
       email: personToEdit?.email || "",
-      phone: personToEdit?.phone || "",
-      cellphone: personToEdit?.cellphone || "",
+      phone: numberToMaskFormat(personToEdit?.phone || "", phoneFormat),
+      cellphone: numberToMaskFormat(
+        personToEdit?.cellphone || "",
+        cellphoneFormat
+      ),
       notary: personToEdit?.notary || "",
       observation: personToEdit?.observation || "",
       location: {
@@ -55,7 +60,7 @@ export const NaturalPersonEditForm = forwardRef<
         state: personToEdit?.location.state || "",
         postalCode: personToEdit?.location.postalCode || "",
       },
-      cpf: personToEdit?.cpf || "",
+      cpf: numberToMaskFormat(personToEdit?.cpf || "", cpfFormat),
       rg: personToEdit?.rg || "",
       birthdate: personToEdit?.birthdate || "",
       fatherName: personToEdit?.fatherName || "",
@@ -67,6 +72,7 @@ export const NaturalPersonEditForm = forwardRef<
   const [observation, setObservation] = useState(
     personToEdit?.observation || ""
   );
+  const registerWithMask = useHookFormMask(register);
 
   const onSubmit: SubmitHandler<NaturalPersonRegisterSchema> = async (data) => {
     setHeaderToken();
@@ -74,17 +80,18 @@ export const NaturalPersonEditForm = forwardRef<
 
     try {
       await api.put(`/persons/${personToEdit?.id}`, data);
+      setOpen && setOpen(false);
       toaster.success({
         title: "Pessoa Física",
         description: "Atualizada com sucesso!",
-        duration: 9000,
+        duration: 3000,
       });
     } catch (error) {
       console.error(error);
       toaster.error({
         title: "Erro",
         description: "Houve um erro ao atualizar.",
-        duration: 9000,
+        duration: 3000,
       });
     }
   };
@@ -101,45 +108,47 @@ export const NaturalPersonEditForm = forwardRef<
         <Card.Header>
           <Heading size="md">Dados pessoais</Heading>
         </Card.Header>
-        <Card.Body>
-          <Field.Root>
-            <DrawerInput
-              title="Nome"
-              type="text"
-              placeholder={"Nome completo *"}
-              register={register("name")}
-            />
-            <DrawerInput
-              title="Apelido"
-              type="text"
-              placeholder={"Apelido"}
-              register={register("nickname")}
-            />
-            <DrawerInput
-              title="Email"
-              type="email"
-              placeholder="exemplo@gmail.com"
-              register={register("email")}
-            />
-            <DrawerInput
-              title="Celular"
-              type="text"
-              placeholder="(xx) 99999-9999"
-              register={register("cellphone")}
-            />
-            <DrawerInput
-              title="Telefone"
-              type="text"
-              placeholder="Telefone fixo"
-              register={register("phone")}
-            />
-            <DrawerInput
-              title="Nascimento"
-              type="text"
-              placeholder="dd/mm/aaaa"
-              register={register("birthdate")}
-            />
-          </Field.Root>
+        <Card.Body gap={2}>
+          <DrawerInput
+            title="Nome"
+            type="text"
+            placeholder={"Nome completo *"}
+            register={register("name")}
+          />
+          <DrawerInput
+            title="Apelido"
+            type="text"
+            placeholder={"Apelido"}
+            register={register("nickname")}
+          />
+          <DrawerInput
+            title="Email"
+            type="email"
+            placeholder="exemplo@gmail.com"
+            register={register("email")}
+            error={errors?.email}
+          />
+          <DrawerInput
+            title="Celular"
+            type="text"
+            placeholder="(xx) 99999-9999"
+            register={registerWithMask("cellphone", cellphoneFormat)}
+            error={errors.cellphone}
+          />
+          <DrawerInput
+            title="Telefone"
+            type="text"
+            placeholder="Telefone fixo"
+            register={registerWithMask("phone", phoneFormat)}
+            error={errors?.phone}
+          />
+          <DrawerInput
+            title="Nascimento"
+            type="text"
+            placeholder="dia/mês/ano"
+            register={registerWithMask("birthdate", birthdateFormat)}
+            error={errors?.birthdate}
+          />
         </Card.Body>
       </Card.Root>
     );
@@ -151,30 +160,31 @@ export const NaturalPersonEditForm = forwardRef<
         <Card.Header>
           <Heading size="md">{"Documentação"}</Heading>
         </Card.Header>
-        <Card.Body>
-          <Field.Root>
-            <DrawerInput
-              title="CPF"
-              type="text"
-              placeholder="Informe o CPF *"
-              register={register("cpf", { required: true })}
-              labelW="2rem"
-            />
-            <DrawerInput
-              title="RG"
-              type="text"
-              placeholder={"Registro Geral"}
-              register={register("rg")}
-              labelW="2rem"
-            />
-            <DrawerInput
-              title="CRC"
-              type="text"
-              placeholder={"Conselho Regional de Contabilidade"}
-              register={register("crc")}
-              labelW="2rem"
-            />
-          </Field.Root>
+        <Card.Body gap={2}>
+          <DrawerInput
+            title="CPF"
+            type="text"
+            placeholder="Informe o CPF *"
+            register={registerWithMask("cpf", cpfFormat, {
+              required: true,
+            })}
+            labelW="2rem"
+            error={errors?.cpf}
+          />
+          <DrawerInput
+            title="RG"
+            type="text"
+            placeholder={"Registro Geral"}
+            register={register("rg")}
+            labelW="2rem"
+          />
+          <DrawerInput
+            title="CRC"
+            type="text"
+            placeholder={"Conselho Regional de Contabilidade"}
+            register={register("crc")}
+            labelW="2rem"
+          />
         </Card.Body>
       </Card.Root>
     );
@@ -186,44 +196,42 @@ export const NaturalPersonEditForm = forwardRef<
         <Card.Header>
           <Heading size="md">{"Endereço"}</Heading>
         </Card.Header>
-        <Card.Body>
-          <Field.Root>
-            <DrawerInput
-              title="Rua"
-              type="text"
-              placeholder={"Endereço"}
-              register={register("location.address")}
-              labelW="6rem"
-            />
-            <DrawerInput
-              title="Número"
-              type="text"
-              placeholder={"Número"}
-              register={register("location.number")}
-              labelW="6rem"
-            />
-            <DrawerInput
-              title="Complemento"
-              type="text"
-              placeholder={"Complemento"}
-              register={register("location.complement")}
-              labelW="6rem"
-            />
-            <DrawerInput
-              title="Cidade"
-              type="text"
-              placeholder={"Cidade"}
-              register={register("location.city")}
-              labelW="6rem"
-            />
-            <DrawerInput
-              title="Estado"
-              type="text"
-              placeholder={"Estado"}
-              register={register("location.state")}
-              labelW="6rem"
-            />
-          </Field.Root>
+        <Card.Body gap={2}>
+          <DrawerInput
+            title="Rua"
+            type="text"
+            placeholder={"Endereço"}
+            register={register("location.address")}
+            labelW="6rem"
+          />
+          <DrawerInput
+            title="Número"
+            type="text"
+            placeholder={"Número"}
+            register={register("location.number")}
+            labelW="6rem"
+          />
+          <DrawerInput
+            title="Complemento"
+            type="text"
+            placeholder={"Complemento"}
+            register={register("location.complement")}
+            labelW="6rem"
+          />
+          <DrawerInput
+            title="Cidade"
+            type="text"
+            placeholder={"Cidade"}
+            register={register("location.city")}
+            labelW="6rem"
+          />
+          <DrawerInput
+            title="Estado"
+            type="text"
+            placeholder={"Estado"}
+            register={register("location.state")}
+            labelW="6rem"
+          />
         </Card.Body>
       </Card.Root>
     );

@@ -10,7 +10,18 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
+import { withMask } from "use-mask-input";
 
+import {
+  birthdateFormat,
+  cellphoneFormat,
+  cnpjFormat,
+  cpfFormat,
+  ieFormat,
+  imFormat,
+  phoneFormat,
+} from "@/utils/masks";
+import { Client, LegalEntity, NaturalPerson } from "@/models";
 import {
   DrawerActionTrigger,
   DrawerBackdrop,
@@ -23,14 +34,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Client, LegalEntity, NaturalPerson } from "@/models";
 import { PersonEditDrawer } from "../../(edit)";
 
 export const PersonInfoDrawer = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
   const [person, setPerson] = useState<Client>();
 
-  const btnRef = React.useRef(null);
   const drawerEditRef = React.useRef<HTMLFormElement>(null);
 
   useImperativeHandle(ref, () => ({
@@ -78,19 +87,23 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
               <Text minW={"6rem"} as="b">
                 Celular:
               </Text>
-              <Text whiteSpace="nowrap">{person?.cellphone}</Text>
+              <Text ref={withMask(cellphoneFormat)} whiteSpace="nowrap">
+                {person?.cellphone}
+              </Text>
             </HStack>
             <HStack>
               <Text minW={"6rem"} as="b">
                 Tel fixo:
               </Text>
-              <Text whiteSpace="nowrap">{person?.phone}</Text>
+              <Text ref={withMask(phoneFormat)} whiteSpace="nowrap">
+                {person?.phone}
+              </Text>
             </HStack>
             <HStack>
               <Text minW={"6rem"} as="b">
                 Nascimento:
               </Text>
-              <Text whiteSpace="nowrap">
+              <Text ref={withMask(birthdateFormat)} whiteSpace="nowrap">
                 {(person as NaturalPerson)?.birthdate}
               </Text>
             </HStack>
@@ -130,13 +143,17 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
               <Text minW={"8rem"} as="b">
                 Celular:
               </Text>
-              <Text whiteSpace="nowrap">{person?.cellphone}</Text>
+              <Text ref={withMask(cellphoneFormat)} whiteSpace="nowrap">
+                {person?.cellphone}
+              </Text>
             </HStack>
             <HStack>
               <Text minW={"8rem"} as="b">
                 Telefone:
               </Text>
-              <Text whiteSpace="nowrap">{person?.phone}</Text>
+              <Text ref={withMask(phoneFormat)} whiteSpace="nowrap">
+                {person?.phone}
+              </Text>
             </HStack>
             <HStack>
               <Text minW={"8rem"} as="b">
@@ -164,7 +181,9 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
               <Text minW={"3rem"} as="b">
                 CPF:
               </Text>
-              <Text whiteSpace="nowrap">{(person as NaturalPerson)?.cpf}</Text>
+              <Text ref={withMask(cpfFormat)} whiteSpace="nowrap">
+                {(person as NaturalPerson)?.cpf}
+              </Text>
             </HStack>
             <HStack>
               <Text minW={"3rem"} as="b">
@@ -196,19 +215,25 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
               <Text minW={"3rem"} as="b">
                 CNPJ:
               </Text>
-              <Text whiteSpace="nowrap">{(person as LegalEntity)?.cnpj}</Text>
+              <Text ref={withMask(cnpjFormat)} whiteSpace="nowrap">
+                {(person as LegalEntity)?.cnpj}
+              </Text>
             </HStack>
             <HStack>
               <Text minW={"3rem"} as="b">
                 IM:
               </Text>
-              <Text whiteSpace="nowrap">{(person as LegalEntity)?.im}</Text>
+              <Text ref={withMask(imFormat)} whiteSpace="nowrap">
+                {(person as LegalEntity)?.im}
+              </Text>
             </HStack>
             <HStack>
               <Text minW={"3rem"} as="b">
                 IE:
               </Text>
-              <Text whiteSpace="nowrap">{(person as LegalEntity)?.ie}</Text>
+              <Text ref={withMask(ieFormat)} whiteSpace="nowrap">
+                {(person as LegalEntity)?.ie}
+              </Text>
             </HStack>
           </VStack>
         </Card.Body>

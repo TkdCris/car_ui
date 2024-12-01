@@ -28,7 +28,6 @@ export const PersonEditDrawer = forwardRef((props, ref) => {
     if (formRef.current) {
       formRef.current.requestSubmit();
     }
-    setOpen(false);
   };
 
   useImperativeHandle(ref, () => ({
@@ -57,11 +56,13 @@ export const PersonEditDrawer = forwardRef((props, ref) => {
               <LegalEntityEditForm
                 ref={formRef}
                 personToEdit={person as LegalEntityRegisterSchema}
+                setOpen={setOpen}
               />
             ) : (
               <NaturalPersonEditForm
                 ref={formRef}
                 personToEdit={person as NaturalPersonRegisterSchema}
+                setOpen={setOpen}
               />
             )}
           </DrawerBody>

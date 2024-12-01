@@ -1,7 +1,7 @@
-import { Input, Text } from "@chakra-ui/react";
+import { Box, Input, Text } from "@chakra-ui/react";
+import { FieldError } from "react-hook-form";
 
 import { Field } from "../ui/field";
-import { FieldError } from "react-hook-form";
 
 type DrawerInputProps = {
   title: string;
@@ -9,7 +9,7 @@ type DrawerInputProps = {
   placeholder?: string;
   register?: any;
   labelW?: string;
-  error?: FieldError;
+  error?: FieldError | undefined;
 };
 export const DrawerInput = ({
   title,
@@ -20,26 +20,25 @@ export const DrawerInput = ({
   error,
 }: DrawerInputProps) => {
   return (
-    <>
+    <Box display="flex" flexDir="column">
       <Field
-        display={"flex"}
         orientation={{ base: "vertical", md: "horizontal" }}
         label={title}
         whiteSpace={"nowrap"}
         flexShrink={0}
         css={{ "--field-label-width": labelW }}
+        invalid={!!error?.message}
       >
         <Input
           alignSelf="center"
           type={type}
-          h={8}
           placeholder={placeholder}
           {...register}
         />
       </Field>
-      <Text alignSelf={"end"} color="red">
+      <Text alignSelf={"end"} color="error">
         {error?.message}
       </Text>
-    </>
+    </Box>
   );
 };
