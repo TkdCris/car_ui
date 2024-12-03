@@ -133,7 +133,7 @@ export const NaturalPersonEditForm = forwardRef<
             type="text"
             placeholder="(xx) 99999-9999"
             register={registerWithMask("cellphone", cellphoneFormat)}
-            error={errors.cellphone}
+            error={errors?.cellphone}
           />
           <DrawerInput
             title="Telefone"

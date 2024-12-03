@@ -1,3 +1,4 @@
+import { validateCPF } from "@/utils/validateCPF";
 import { z } from "zod";
 
 export const locationSchema = z.object({
@@ -19,16 +20,17 @@ const basicPersonSchema = z.object({
     .refine((email) => !email || z.string().email().safeParse(email).success,
       { message: "Email inválido!" }
     ),
+  cellphone: z.string()
+    .optional()
+    .refine(
+      (cellphone) => !cellphone || /^\(\d{2}\) \d{5}-\d{4}$/.test(cellphone),
+      { message: "Celular inválido" }
+    ).transform(cellphone => cellphone?.replace(/\D/g, "")),
   phone: z
     .union([
       z.string().regex(/^\(\d{2}\) \d{4}-\d{4}$/, { message: "Telefone inválido" }),
       z.string().length(0),
     ]).transform(phone => phone.replace(/\D/g, "")),
-  cellphone: z.string()
-    .refine(
-      (cellphone) => !cellphone || /^\(\d{2}\) \d{5}-\d{4}$/.test(cellphone),
-      { message: "Celular inválido" }
-    ).transform(cellphone => cellphone.replace(/\D/g, "")),
   notary: z.string(),
   observation: z.string(),
   location: locationSchema,
@@ -55,7 +57,7 @@ export const legalEntityRegisterSchema = basicPersonSchema
 export const naturalPersonRegisterSchema = basicPersonSchema
   .merge(z.object({
     cpf: z.string().min(1, { message: "Informe o CPF!" })
-      .regex(/\d{3}.\d{3}.\d{3}-\d{2}/, {message: "CPF inválido"})
+      .refine((cpf) => validateCPF(cpf), {message: "CPF inválido"})
       .transform(cpf => cpf.replace(/\D/g, "")),
     rg: z.string(),
     birthdate: z.string()
