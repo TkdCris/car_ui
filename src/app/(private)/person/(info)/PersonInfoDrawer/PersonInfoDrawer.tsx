@@ -253,7 +253,7 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
               <Text minW={"7rem"} as="b">
                 Rua:
               </Text>
-              <Text whiteSpace="nowrap">{person?.location.address}</Text>
+              <Text whiteSpace="nowrap">{person?.location.street}</Text>
             </HStack>
             <HStack>
               <Text minW={"7rem"} as="b">
@@ -266,6 +266,12 @@ export const PersonInfoDrawer = forwardRef((props, ref) => {
                 Complemento:
               </Text>
               <Text whiteSpace="nowrap">{person?.location?.complement}</Text>
+            </HStack>
+            <HStack>
+              <Text minW={"7rem"} as="b">
+                Bairro:
+              </Text>
+              <Text whiteSpace="nowrap">{person?.location?.neighborhood}</Text>
             </HStack>
             <HStack>
               <Text minW={"7rem"} as="b">

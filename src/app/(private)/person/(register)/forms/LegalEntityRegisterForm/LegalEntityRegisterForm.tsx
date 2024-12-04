@@ -1,12 +1,20 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Card, CardHeader, Flex, Heading, Textarea } from "@chakra-ui/react";
+import {
+  Card,
+  CardHeader,
+  Flex,
+  Heading,
+  Spinner,
+  Textarea,
+} from "@chakra-ui/react";
+import { BsSearch } from "react-icons/bs";
 import { useHookFormMask } from "use-mask-input";
-
 import { api, setHeaderToken } from "@/services/axios/axios";
 
-import { cnpjFormat, ieFormat, imFormat } from "@/utils/masks";
+import { zipcodeFormat, cnpjFormat, ieFormat, imFormat } from "@/utils/masks";
+import { getAddressByZipCode } from "@/utils/getAddressByZipCode";
 import {
   LegalEntityRegisterSchema,
   legalEntityRegisterSchema,
@@ -14,6 +22,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { toaster } from "@/components/ui/toaster";
 import { Field } from "@/components/ui/field";
+import { Button } from "@/components/ui/button";
 import { DrawerInput } from "@/components";
 
 type RegisterFormHandle = {
@@ -31,6 +40,10 @@ export const LegalEntityRegisterForm = forwardRef<
   const {
     register,
     handleSubmit,
+    setValue,
+    setError,
+    watch,
+    reset,
     formState: { errors },
   } = useForm<LegalEntityRegisterSchema>({
     resolver: zodResolver(legalEntityRegisterSchema),
@@ -45,12 +58,13 @@ export const LegalEntityRegisterForm = forwardRef<
       notary: "",
       observation: "",
       location: {
-        address: "",
+        street: "",
         city: "",
         number: "",
         complement: "",
         state: "",
-        postalCode: "",
+        zipcode: "",
+        neighborhood: "",
       },
       cnpj: "",
       ie: "",
@@ -61,18 +75,16 @@ export const LegalEntityRegisterForm = forwardRef<
     },
   });
 
-  const [isIcmsTaxPayer, setIsIcmsTaxPayer] = useState(false);
-  const [observation, setObservation] = useState("");
   const registerWithMask = useHookFormMask(register);
+  const [isSearchingAddress, setIsSearchingAddress] = useState<boolean>(false);
+  const { location } = watch();
 
   const onSubmit: SubmitHandler<LegalEntityRegisterSchema> = async (data) => {
     setHeaderToken();
-    data.icmsTaxPayer = isIcmsTaxPayer;
-    data.observation = observation;
-
     try {
       await api.post("/persons", data);
       setOpen && setOpen(false);
+      reset();
       toaster.success({
         title: "Pessoa Jurídica",
         description: "Cadastro realizado com sucesso!.",
@@ -93,10 +105,6 @@ export const LegalEntityRegisterForm = forwardRef<
   }));
 
   function companyCard() {
-    const handleSwitch = (checked: boolean) => {
-      setIsIcmsTaxPayer(checked);
-    };
-
     return (
       <Card.Root bg={"drawer.content"}>
         <CardHeader>
@@ -153,7 +161,7 @@ export const LegalEntityRegisterForm = forwardRef<
             whiteSpace={"nowrap"}
           >
             <Switch
-              onCheckedChange={(e) => handleSwitch(e.checked)}
+              onCheckedChange={(e) => setValue("icmsTaxPayer", e.checked)}
               id="icmsTaxpayer"
             />
           </Field>
@@ -198,6 +206,28 @@ export const LegalEntityRegisterForm = forwardRef<
     );
   }
 
+  const handleSearchAddress = async (zipcode: string) => {
+    setError("location.zipcode", { message: "" });
+    if (!location.zipcode || location.zipcode.replace(/\D/g, "").length !== 8) {
+      setError("location.zipcode", { message: "CEP deve conter 8 dígitos" });
+      return;
+    }
+
+    setIsSearchingAddress(true);
+    try {
+      const { data } = await getAddressByZipCode(zipcode);
+      setValue("location.street", data.street);
+      setValue("location.city", data.city);
+      setValue("location.state", data.state);
+      setValue("location.neighborhood", data.neighborhood);
+    } catch (error) {
+      console.error("Search address error: ");
+      setError("location.zipcode", { message: "CEP não encontrado" });
+    } finally {
+      setIsSearchingAddress(false);
+    }
+  };
+
   function addressCard() {
     return (
       <Card.Root bg={"drawer.content"}>
@@ -205,12 +235,33 @@ export const LegalEntityRegisterForm = forwardRef<
           <Heading size="md">{"Endereço"}</Heading>
         </Card.Header>
         <Card.Body gap={2}>
+          <Field flexDir={"row"} alignItems={"center"} pos="relative">
+            <DrawerInput
+              title="Código Postal"
+              type="text"
+              placeholder={"zipcode"}
+              register={registerWithMask("location.zipcode", zipcodeFormat)}
+              labelW="6rem"
+              error={errors.location?.zipcode}
+            />
+            <Button
+              pos={"absolute"}
+              variant="ghost"
+              right={0}
+              disabled={location.zipcode.replace(/\D/g, "").length !== 8}
+              top={{ base: "1.7rem", md: "0" }}
+              onClick={() => handleSearchAddress(location.zipcode)}
+            >
+              {isSearchingAddress ? <Spinner size="sm" /> : <BsSearch />}
+            </Button>
+          </Field>
           <DrawerInput
             title="Rua"
             type="text"
             placeholder={"Endereço"}
-            register={register("location.address")}
+            register={register("location.street")}
             labelW="6rem"
+            value={location.street}
           />
           <DrawerInput
             title="Número"
@@ -227,11 +278,20 @@ export const LegalEntityRegisterForm = forwardRef<
             labelW="6rem"
           />
           <DrawerInput
+            title="Bairro"
+            type="text"
+            placeholder={"Bairro"}
+            register={register("location.neighborhood")}
+            labelW="6rem"
+            value={location.neighborhood}
+          />
+          <DrawerInput
             title="Cidade"
             type="text"
             placeholder={"Cidade"}
             register={register("location.city")}
             labelW="6rem"
+            value={location.city}
           />
           <DrawerInput
             title="Estado"
@@ -239,6 +299,7 @@ export const LegalEntityRegisterForm = forwardRef<
             placeholder={"Estado"}
             register={register("location.state")}
             labelW="6rem"
+            value={location.state}
           />
         </Card.Body>
       </Card.Root>
@@ -252,7 +313,7 @@ export const LegalEntityRegisterForm = forwardRef<
           <Heading size="md">{"Observação"}</Heading>
         </Card.Header>
         <Card.Body pt={0}>
-          <Textarea onChange={(e) => setObservation(e.target.value)} />
+          <Textarea onChange={(e) => setValue("observation", e.target.value)} />
         </Card.Body>
       </Card.Root>
     );

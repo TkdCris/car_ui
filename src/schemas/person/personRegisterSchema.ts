@@ -2,12 +2,17 @@ import { validateCPF } from "@/utils/validateCPF";
 import { z } from "zod";
 
 export const locationSchema = z.object({
-  address: z.string(),
+  street: z.string(),
   city: z.string(),
   number: z.string(),
   complement: z.string(),
   state: z.string(),
-  postalCode: z.string(),
+  zipcode: z.string()
+    .refine(
+      (cep) => !cep || /\d{5}-\d{3}$/.test(cep),
+      { message: "CEP inválido" }
+    ).transform(cep => cep?.replace(/\D/g, "")),
+  neighborhood: z.string(),
 });
 
 const basicPersonSchema = z.object({
@@ -26,8 +31,7 @@ const basicPersonSchema = z.object({
       (cellphone) => !cellphone || /^\(\d{2}\) \d{5}-\d{4}$/.test(cellphone),
       { message: "Celular inválido" }
     ).transform(cellphone => cellphone?.replace(/\D/g, "")),
-  phone: z
-    .union([
+  phone: z.union([
       z.string().regex(/^\(\d{2}\) \d{4}-\d{4}$/, { message: "Telefone inválido" }),
       z.string().length(0),
     ]).transform(phone => phone.replace(/\D/g, "")),

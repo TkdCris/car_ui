@@ -1,7 +1,15 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Card, CardHeader, Flex, Heading, Textarea } from "@chakra-ui/react";
+import {
+  Card,
+  CardHeader,
+  Flex,
+  Heading,
+  Spinner,
+  Textarea,
+} from "@chakra-ui/react";
+import { BsSearch } from "react-icons/bs";
 import { useHookFormMask } from "use-mask-input";
 
 import { api, setHeaderToken } from "@/services/axios/axios";
@@ -13,11 +21,16 @@ import { NaturalPerson } from "@/models";
 import {
   birthdateFormat,
   cellphoneFormat,
+  zipcodeFormat,
   cpfFormat,
   numberToMaskFormat,
   phoneFormat,
 } from "@/utils/masks";
+import { getAddressByZipCode } from "@/utils/getAddressByZipCode";
+
 import { toaster } from "@/components/ui/toaster";
+import { Field } from "@/components/ui/field";
+import { Button } from "@/components/ui/button";
 import { DrawerInput } from "@/components";
 
 type RegisterFormHandle = {
@@ -36,6 +49,9 @@ export const NaturalPersonEditForm = forwardRef<
   const {
     register,
     handleSubmit,
+    setValue,
+    setError,
+    watch,
     formState: { errors },
   } = useForm<NaturalPersonRegisterSchema>({
     resolver: zodResolver(naturalPersonRegisterSchema),
@@ -45,22 +61,28 @@ export const NaturalPersonEditForm = forwardRef<
       name: personToEdit?.name || "",
       nickname: personToEdit?.nickname || "",
       email: personToEdit?.email || "",
-      phone: numberToMaskFormat(personToEdit?.phone || "", phoneFormat),
-      cellphone: numberToMaskFormat(
-        personToEdit?.cellphone || "",
-        cellphoneFormat
-      ),
+      phone: personToEdit?.phone
+        ? numberToMaskFormat(personToEdit.phone, phoneFormat)
+        : "",
+      cellphone: personToEdit?.cellphone
+        ? numberToMaskFormat(personToEdit?.cellphone, cellphoneFormat)
+        : "",
       notary: personToEdit?.notary || "",
       observation: personToEdit?.observation || "",
       location: {
-        address: personToEdit?.location.address || "",
+        street: personToEdit?.location.street || "",
         city: personToEdit?.location.city || "",
         number: personToEdit?.location.number || "",
         complement: personToEdit?.location.complement || "",
         state: personToEdit?.location.state || "",
-        postalCode: personToEdit?.location.postalCode || "",
+        zipcode: personToEdit?.location.zipcode
+          ? numberToMaskFormat(personToEdit?.location.zipcode, zipcodeFormat)
+          : "",
+        neighborhood: personToEdit?.location.neighborhood || "",
       },
-      cpf: numberToMaskFormat(personToEdit?.cpf || "", cpfFormat),
+      cpf: personToEdit?.cpf
+        ? numberToMaskFormat(personToEdit.cpf, cpfFormat)
+        : "",
       rg: personToEdit?.rg || "",
       birthdate: personToEdit?.birthdate || "",
       fatherName: personToEdit?.fatherName || "",
@@ -69,14 +91,12 @@ export const NaturalPersonEditForm = forwardRef<
     },
   });
 
-  const [observation, setObservation] = useState(
-    personToEdit?.observation || ""
-  );
   const registerWithMask = useHookFormMask(register);
+  const [isSearchingAddress, setIsSearchingAddress] = useState<boolean>(false);
+  const { location } = watch();
 
   const onSubmit: SubmitHandler<NaturalPersonRegisterSchema> = async (data) => {
     setHeaderToken();
-    data.observation = observation;
 
     try {
       await api.put(`/persons/${personToEdit?.id}`, data);
@@ -190,6 +210,28 @@ export const NaturalPersonEditForm = forwardRef<
     );
   }
 
+  const handleSearchAddress = async (zipcode: string) => {
+    setError("location.zipcode", { message: "" });
+    if (!location.zipcode || location.zipcode.replace(/\D/g, "").length !== 8) {
+      setError("location.zipcode", { message: "CEP deve conter 8 dígitos" });
+      return;
+    }
+
+    setIsSearchingAddress(true);
+    try {
+      const { data } = await getAddressByZipCode(zipcode);
+      setValue("location.street", data.street);
+      setValue("location.city", data.city);
+      setValue("location.state", data.state);
+      setValue("location.neighborhood", data.neighborhood);
+    } catch (error) {
+      console.error("Search address error: ");
+      setError("location.zipcode", { message: "CEP não encontrado" });
+    } finally {
+      setIsSearchingAddress(false);
+    }
+  };
+
   function addressCard() {
     return (
       <Card.Root bg={"drawer.content"}>
@@ -197,11 +239,30 @@ export const NaturalPersonEditForm = forwardRef<
           <Heading size="md">{"Endereço"}</Heading>
         </Card.Header>
         <Card.Body gap={2}>
+          <Field flexDir={"row"} alignItems={"center"} pos="relative">
+            <DrawerInput
+              title="Código Postal"
+              type="text"
+              register={registerWithMask("location.zipcode", zipcodeFormat)}
+              labelW="6rem"
+              error={errors.location?.zipcode}
+            />
+            <Button
+              pos={"absolute"}
+              variant="ghost"
+              right={0}
+              disabled={location.zipcode.replace(/\D/g, "").length !== 8}
+              top={{ base: "1.7rem", md: "0" }}
+              onClick={() => handleSearchAddress(location.zipcode)}
+            >
+              {isSearchingAddress ? <Spinner size="sm" /> : <BsSearch />}
+            </Button>
+          </Field>
           <DrawerInput
             title="Rua"
             type="text"
             placeholder={"Endereço"}
-            register={register("location.address")}
+            register={register("location.street")}
             labelW="6rem"
           />
           <DrawerInput
@@ -246,7 +307,7 @@ export const NaturalPersonEditForm = forwardRef<
         <Card.Body pt={0}>
           <Textarea
             defaultValue={personToEdit?.observation || ""}
-            onChange={(e) => setObservation(e.target.value)}
+            onChange={(e) => setValue("observation", e.target.value)}
           />
         </Card.Body>
       </Card.Root>

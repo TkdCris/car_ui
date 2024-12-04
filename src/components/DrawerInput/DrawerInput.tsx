@@ -9,6 +9,7 @@ type DrawerInputProps = {
   placeholder?: string;
   register?: any;
   labelW?: string;
+  value?: any;
   error?: FieldError | undefined;
 };
 export const DrawerInput = ({
@@ -17,10 +18,11 @@ export const DrawerInput = ({
   placeholder,
   register,
   labelW,
+  value,
   error,
 }: DrawerInputProps) => {
   return (
-    <Box display="flex" flexDir="column">
+    <Box display="flex" flexDir="column" w={"full"}>
       <Field
         orientation={{ base: "vertical", md: "horizontal" }}
         label={title}
@@ -33,6 +35,7 @@ export const DrawerInput = ({
           alignSelf="center"
           type={type}
           placeholder={placeholder}
+          value={value}
           {...register}
         />
       </Field>

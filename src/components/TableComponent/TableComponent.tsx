@@ -46,7 +46,9 @@ export function TableComponent<T extends { [key: string]: any }>({
   };
 
   const rowsObjectWithOutObjectOnValues = removeObjectValues(rows);
-  const titlesFromRow = Object.keys(rowsObjectWithOutObjectOnValues[0]);
+  const titlesFromRow = rowsObjectWithOutObjectOnValues.length
+    ? Object.keys(rowsObjectWithOutObjectOnValues[0])
+    : [];
   const titleList = titles ? titles : titlesFromRow;
 
   return (

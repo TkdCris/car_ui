@@ -1,12 +1,13 @@
 import { CommonEntity } from "./basicEntitys";
 
 export interface Location {
-  address?: string; /** Endereço completo (tag: <ender>) */
+  street?: string; /** Endereço completo (tag: <ender>) */
   city?: string; /** Nome da cidade (tag: <xMun>) */
   number?: string;
   complement?: string;
   state?: string; // Sigla do estado (UF) (tag: <UF>)
-  postalCode?: string; // (tag: <CEP>)
+  zipcode?: string; // (tag: <CEP>)
+  neighborhood?: string;
 }
 
 export interface AbstractPerson extends CommonEntity {

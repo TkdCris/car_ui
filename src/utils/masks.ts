@@ -3,6 +3,7 @@ export const cellphoneFormat = "(99) 99999-9999";
 export const cnpjFormat = "99.999.999/9999-99";
 export const cpfFormat = "999.999.999-99";
 export const birthdateFormat = "99/99/9999";
+export const zipcodeFormat = "99999-999";
 export const ieFormat = [
   "999.999.999",
   "999.999.999.999",
