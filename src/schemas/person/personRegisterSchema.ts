@@ -81,7 +81,6 @@ export const naturalPersonRegisterSchema = basicPersonSchema
         const birthdateObject = new Date(year, month - 1, day);
         const today = new Date();
         today.setHours(0,0,0,0);
-
         return birthdateObject <= today;
       },
       { message: "Data inválida"}

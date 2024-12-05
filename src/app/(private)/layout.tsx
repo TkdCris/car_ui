@@ -38,7 +38,9 @@ export default function Layout({
     const sessionToken = sessionStorage.getItem("token");
     const cookieToken = getCookie("token");
     if (!sessionToken) redirect("/login");
-    if (!cookieToken) redirect("/login");
+
+    //TODO Descomentar após ter a aplicação num servidor https:
+    // if (!cookieToken) redirect("/login");
   }, []);
 
   return (
