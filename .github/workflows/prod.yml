@@ -24,7 +24,7 @@ jobs:
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
 
       - name: Build docker image
-        run: docker build -t tkdcris/car-frontend:latest --build-arg NEXT_PUBLIC_AUTH_URL=${{secrets.NEXT_PUBLIC_AUTH_URL}} --build-arg NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}} .
+        run: docker build -t tkdcris/car-frontend:latest --build-arg NEXT_PUBLIC_AUTH_URL=${{secrets.NEXT_PUBLIC_AUTH_URL}} --build-arg NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}} --build-arg NEXT_PUBLIC_CEP_BASE_URL=${{secrets.NEXT_PUBLIC_CEP_BASE_URL}} .
 
       - name: Push image docker
         run: docker push tkdcris/car-frontend:latest
@@ -38,4 +38,4 @@ jobs:
       - name: Remove docker container
         run: docker rm -f car-frontend
       - name: Run docker container
-        run: docker run -d -p 3002:3000 -e NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}} -e NEXT_PUBLIC_AUTH_URL=${{secrets.NEXT_PUBLIC_AUTH_URL}} --name car-frontend tkdcris/car-frontend
+        run: docker run -d -p 3002:3000 -e NEXT_PUBLIC_BASE_URL=${{secrets.NEXT_PUBLIC_BASE_URL}} -e NEXT_PUBLIC_AUTH_URL=${{secrets.NEXT_PUBLIC_AUTH_URL}} -e NEXT_PUBLIC_CEP_BASE_URL=${{secrets.NEXT_PUBLIC_CEP_BASE_URL}} --name car-frontend tkdcris/car-frontend
