@@ -39,7 +39,7 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
   return (
     <VStack
       transition="width 0.3s ease-in-out"
-      w={isMenuText ? 200 : 12}
+      w={{ base: isMenuText ? 150 : 0, md: isMenuText ? 200 : 14 }}
       h="full"
       justifyContent="space-between"
       color="text"
@@ -50,19 +50,13 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
       borderColor="app.bg"
     >
       <VStack width="100%" pt={4}>
-        <BtnMenu
-          onClick={toogleMenu}
-          icon={<GiHamburgerMenu />}
-          isText={isMenuText}
-        >
-          <Text>Menu</Text>
-        </BtnMenu>
-
         <Box w={"100%"} alignItems={"start"}>
           <Link href="/person" passHref={true}>
             <BtnMenu
               isSelected={selected === "person"}
-              onClick={() => handleSetSelected("person")}
+              props={{
+                onClick: () => handleSetSelected("person"),
+              }}
               icon={<BsFillPersonFill />}
               isText={isMenuText}
             >
@@ -74,7 +68,7 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
           <Link href="/vehicle" passHref={true}>
             <BtnMenu
               isSelected={selected === "vehicle"}
-              onClick={() => handleSetSelected("vehicle")}
+              props={{ onClick: () => handleSetSelected("vehicle") }}
               icon={<BsFillCarFrontFill />}
               isText={isMenuText}
             >
@@ -86,7 +80,7 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
           <Link href="/financial" passHref={true}>
             <BtnMenu
               isSelected={selected === "financial"}
-              onClick={() => handleSetSelected("financial")}
+              props={{ onClick: () => handleSetSelected("financial") }}
               icon={<BsCurrencyDollar />}
               isText={isMenuText}
             >
@@ -98,7 +92,7 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
           <Link href="/fiscal" passHref={true}>
             <BtnMenu
               isSelected={selected === "fiscal"}
-              onClick={() => handleSetSelected("fiscal")}
+              props={{ onClick: () => handleSetSelected("fiscal") }}
               icon={<RiPagesLine />}
               isText={isMenuText}
             >
@@ -110,7 +104,7 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
           <Link href="#" passHref={true}>
             <BtnMenu
               isSelected={selected === "reports"}
-              onClick={() => handleSetSelected("reports")}
+              props={{ onClick: () => handleSetSelected("reports") }}
               icon={<ImPrinter />}
               isText={isMenuText}
             >
@@ -122,7 +116,7 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
 
       <Flex w={"100%"} borderTop={1} borderStyle="solid" borderColor="app.bg">
         <BtnMenu
-          onClick={handleSignOut}
+          props={{ onClick: handleSignOut }}
           icon={<GiExitDoor />}
           isText={isMenuText}
         >

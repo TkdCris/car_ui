@@ -42,7 +42,7 @@ export const NaturalPersonRegisterForm = forwardRef<
     setValue,
     setError,
     reset,
-    formState: { errors, defaultValues },
+    formState: { errors },
   } = useForm<NaturalPersonRegisterSchema>({
     resolver: zodResolver(naturalPersonRegisterSchema),
     defaultValues: {

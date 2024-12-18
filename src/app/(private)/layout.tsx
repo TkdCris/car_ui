@@ -45,7 +45,7 @@ export default function Layout({
 
   return (
     <Flex direction="column" height="100vh">
-      <MainHeader />
+      <MainHeader toogleMenu={toogleMenu} />
       <Box as="main" flex="1" bg="app.bg">
         <HStack height="100%" gap={0}>
           <Box height="100%">

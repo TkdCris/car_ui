@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  createListCollection,
-  HStack,
-  Input,
-} from "@chakra-ui/react";
+import { Box, createListCollection, HStack, Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
 import { api, setHeaderToken } from "@/services/axios/axios";
@@ -20,6 +14,7 @@ import {
   SelectValueText,
 } from "../ui/select";
 import { SearchSchema } from "@/schemas";
+import { Button } from "../ui/button";
 
 type SearchComponentProps<T> = {
   getValues: (value: T | null) => void;
@@ -35,7 +30,7 @@ export function SearchComponent<T>({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       key: "name",
@@ -88,7 +83,13 @@ export function SearchComponent<T>({
             bg={"input.bg"}
             {...register("value")}
           />
-          <Button variant={"outline"} type="submit" color="content.text">
+          <Button
+            loading={isSubmitting}
+            loadingText="Pesquisando..."
+            variant={"outline"}
+            type="submit"
+            color="content.text"
+          >
             Pesquisar
           </Button>
         </HStack>
