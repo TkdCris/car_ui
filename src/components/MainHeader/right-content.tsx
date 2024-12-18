@@ -5,12 +5,12 @@ import { SwitchTheme } from "../SwitchTheme";
 
 export function RightContent() {
   return (
-    <Flex color="header.text" alignItems="center" gap={4}>
+    <Flex color="header.text" alignItems="center" gap={4} pr={4}>
       <Heading as="h1" size="md" gap="4" display={{ base: "none", md: "flex" }}>
         <p>Filial</p>
       </Heading>
       <Avatar size="sm" name="" />
-      <SwitchTheme />
+      {/* <SwitchTheme /> */}
     </Flex>
   );
 }
