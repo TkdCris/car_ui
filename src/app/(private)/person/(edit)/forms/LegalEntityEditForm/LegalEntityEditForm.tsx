@@ -187,6 +187,7 @@ export const LegalEntityEditForm = forwardRef<
             <Flex position="relative" align={"center"} gap={4}>
               <Fieldset.Legend mb="0">Contribuinte ICMS</Fieldset.Legend>
               <Switch
+                colorPalette={"blue"}
                 defaultChecked={personToEdit?.icmsTaxPayer}
                 onCheckedChange={(e) => handleSwitch(e.checked)}
                 id="icmsTaxPayer"

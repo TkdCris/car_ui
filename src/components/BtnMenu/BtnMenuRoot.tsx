@@ -1,22 +1,22 @@
-import React from "react";
+import { Flex, useBreakpointValue } from "@chakra-ui/react";
 import { Button, ButtonProps } from "../ui/button";
-import { Flex, Icon, Text } from "@chakra-ui/react";
 
-interface BtnMenuProps {
-  children?: React.ReactNode;
+interface BtnMenuRootProps extends ButtonProps {
   isSelected?: boolean;
-  icon?: React.ReactNode;
   isText?: boolean;
-  props: ButtonProps;
+  children?: React.ReactNode;
 }
 
-export function BtnMenu({
-  icon,
-  children,
+export function BtnMenuRoot({
   isSelected,
   isText,
-  props,
-}: BtnMenuProps) {
+  children,
+  ...props
+}: BtnMenuRootProps) {
+  const borderRight = useBreakpointValue({
+    base: "0px",
+    md: isSelected ? "4px" : "0px",
+  });
   return (
     <Button
       variant={"ghost"}
@@ -28,7 +28,7 @@ export function BtnMenu({
         bg: "rgba(255, 255, 255, 0.1)",
       }}
       rounded={0}
-      borderRight={isSelected && isText ? 4 : 0}
+      borderRight={borderRight}
       borderStyle={"solid"}
       borderRightColor="menu.border_detail"
       bg={isSelected ? "rgba(255, 255, 255, 0.1)" : ""}
@@ -39,8 +39,7 @@ export function BtnMenu({
       {...props}
     >
       <Flex alignItems={"center"} gap={4}>
-        <Icon>{icon}</Icon>
-        <Text fontWeight={"semibold"}>{isText && children}</Text>
+        {children}
       </Flex>
     </Button>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { GiExitDoor, GiHamburgerMenu } from "react-icons/gi";
+import { GiExitDoor } from "react-icons/gi";
 import { ImPrinter } from "react-icons/im";
 import { RiPagesLine } from "react-icons/ri";
 import {
@@ -8,7 +8,7 @@ import {
   BsFillCarFrontFill,
   BsFillPersonFill,
 } from "react-icons/bs";
-import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -26,14 +26,20 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
 
   const router = useRouter();
 
-  const handleSetSelected = (e: string) => {
-    setSelected(e);
-  };
-
   const handleSignOut = () => {
     deleteCookie("token");
     sessionStorage.removeItem("token");
     router.push("/login");
+  };
+
+  const breakPoint = useBreakpointValue({
+    base: "base",
+    md: "md",
+  });
+
+  const handleSetSelected = (value: string) => {
+    setSelected(value);
+    if (breakPoint === "base") toogleMenu();
   };
 
   return (
@@ -52,76 +58,77 @@ export function LeftMenu({ toogleMenu, isMenuText }: LeftMenuProps) {
       <VStack width="100%" pt={4}>
         <Box w={"100%"} alignItems={"start"}>
           <Link href="/person" passHref={true}>
-            <BtnMenu
+            <BtnMenu.Root
               isSelected={selected === "person"}
-              props={{
-                onClick: () => handleSetSelected("person"),
-              }}
-              icon={<BsFillPersonFill />}
               isText={isMenuText}
+              onClick={() => {
+                handleSetSelected("person");
+              }}
             >
-              <Text>Pessoas</Text>
-            </BtnMenu>
+              <BtnMenu.Icon icon={<BsFillPersonFill />} />
+              <BtnMenu.Text isText={isMenuText}>Pessoas</BtnMenu.Text>
+            </BtnMenu.Root>
           </Link>
         </Box>
         <Box w={"100%"}>
           <Link href="/vehicle" passHref={true}>
-            <BtnMenu
+            <BtnMenu.Root
               isSelected={selected === "vehicle"}
-              props={{ onClick: () => handleSetSelected("vehicle") }}
-              icon={<BsFillCarFrontFill />}
               isText={isMenuText}
+              onClick={() => handleSetSelected("vehicle")}
             >
-              <Text>Veículos</Text>
-            </BtnMenu>
+              <BtnMenu.Icon icon={<BsFillCarFrontFill />} />
+              <BtnMenu.Text isText={isMenuText}>Veículos</BtnMenu.Text>
+            </BtnMenu.Root>
           </Link>
         </Box>
         <Box w={"100%"}>
           <Link href="/financial" passHref={true}>
-            <BtnMenu
+            <BtnMenu.Root
               isSelected={selected === "financial"}
-              props={{ onClick: () => handleSetSelected("financial") }}
-              icon={<BsCurrencyDollar />}
               isText={isMenuText}
+              onClick={() => handleSetSelected("financial")}
             >
-              <Text>Financeiro</Text>
-            </BtnMenu>
+              <BtnMenu.Icon icon={<BsCurrencyDollar />} />
+              <BtnMenu.Text isText={isMenuText}>Financeiro</BtnMenu.Text>
+            </BtnMenu.Root>
           </Link>
         </Box>
         <Box w={"100%"}>
           <Link href="/fiscal" passHref={true}>
-            <BtnMenu
+            <BtnMenu.Root
               isSelected={selected === "fiscal"}
-              props={{ onClick: () => handleSetSelected("fiscal") }}
-              icon={<RiPagesLine />}
               isText={isMenuText}
+              onClick={() => handleSetSelected("fiscal")}
             >
-              <Text>Notas Fiscais</Text>
-            </BtnMenu>
+              <BtnMenu.Icon icon={<RiPagesLine />} />
+              <BtnMenu.Text isText={isMenuText}>Notas Fiscais</BtnMenu.Text>
+            </BtnMenu.Root>
           </Link>
         </Box>
         <Box w={"100%"}>
           <Link href="#" passHref={true}>
-            <BtnMenu
+            <BtnMenu.Root
               isSelected={selected === "reports"}
-              props={{ onClick: () => handleSetSelected("reports") }}
-              icon={<ImPrinter />}
               isText={isMenuText}
+              onClick={() => handleSetSelected("reports")}
             >
-              <Text>Relatórios</Text>
-            </BtnMenu>
+              <BtnMenu.Icon icon={<ImPrinter />} />
+              <BtnMenu.Text isText={isMenuText}>Relatórios</BtnMenu.Text>
+            </BtnMenu.Root>
           </Link>
         </Box>
       </VStack>
 
       <Flex w={"100%"} borderTop={1} borderStyle="solid" borderColor="app.bg">
-        <BtnMenu
-          props={{ onClick: handleSignOut }}
-          icon={<GiExitDoor />}
+        <BtnMenu.Root
+          isSelected={selected === "vehicle"}
           isText={isMenuText}
+          onClick={handleSignOut}
         >
-          <Text>Sair</Text>
-        </BtnMenu>
+          <BtnMenu.Icon icon={<GiExitDoor />} />
+          <BtnMenu.Text isText={isMenuText}>Sair</BtnMenu.Text>
+        </BtnMenu.Root>
       </Flex>
     </VStack>
   );

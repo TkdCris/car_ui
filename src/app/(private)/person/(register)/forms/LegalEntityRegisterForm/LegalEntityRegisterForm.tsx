@@ -161,6 +161,7 @@ export const LegalEntityRegisterForm = forwardRef<
             whiteSpace={"nowrap"}
           >
             <Switch
+              colorPalette={"blue"}
               onCheckedChange={(e) => setValue("icmsTaxPayer", e.checked)}
               id="icmsTaxpayer"
             />
